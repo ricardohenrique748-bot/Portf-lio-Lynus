@@ -200,6 +200,7 @@ body[data-bg="minimal"] .bg-layer .glow-2 { display: none; }
   height: 40px;
   width: auto;
   display: block;
+  mix-blend-mode: screen;
 }
 
 /* scrollbar */
