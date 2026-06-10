@@ -197,7 +197,7 @@ body[data-bg="minimal"] .bg-layer .glow-2 { display: none; }
   text-decoration: none;
 }
 .wordmark-gif {
-  height: 40px;
+  height: 64px;
   width: auto;
   display: block;
   mix-blend-mode: screen;
