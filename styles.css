@@ -193,28 +193,14 @@ body[data-bg="minimal"] .bg-layer .glow-2 { display: none; }
 /* ---- Wordmark ---- */
 .wordmark {
   display: inline-flex;
-  align-items: flex-end;
-  gap: 2px;
-  font-weight: 700;
-  font-size: 21px;
-  letter-spacing: -0.02em;
-  color: var(--text);
+  align-items: center;
   text-decoration: none;
-  position: relative;
 }
-.wordmark .lyn { color: var(--text); }
-.wordmark .u-wrap { position: relative; display: inline-block; }
-.wordmark .pixels {
-  position: absolute;
-  right: -13px;
-  top: -10px;
-  display: grid;
-  grid-template-columns: repeat(3, 3px);
-  grid-auto-rows: 3px;
-  gap: 1.5px;
+.wordmark-gif {
+  height: 40px;
+  width: auto;
+  display: block;
 }
-.wordmark .pixels i { background: var(--accent); border-radius: 1px; display: block; width: 3px; height: 3px; }
-.wordmark .pixels i.c { background: var(--accent-2); }
 
 /* scrollbar */
 ::-webkit-scrollbar { width: 11px; height: 11px; }

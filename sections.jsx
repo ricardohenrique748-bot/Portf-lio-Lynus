@@ -5,15 +5,7 @@
 function Wordmark() {
   return (
     <a className="wordmark" href="#top" aria-label="Lynus Tech">
-      <span className="lyn">LYN</span>
-      <span className="u-wrap">
-        US
-        <span className="pixels" aria-hidden="true">
-          <i></i><i></i><i className="c"></i>
-          <i></i><i className="c"></i><i></i>
-          <i className="c"></i><i></i><i></i>
-        </span>
-      </span>
+      <img src="logo.gif" alt="Lynus Tech" className="wordmark-gif" />
     </a>
   );
 }
