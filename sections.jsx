@@ -196,7 +196,6 @@ function Footer() {
     <footer className="footer" id="precos">
       <div className="wrap footer-inner">
         <div className="footer-brand">
-          <Wordmark />
           <p>{FOOTER.tagline}</p>
         </div>
         <div className="footer-cols">
