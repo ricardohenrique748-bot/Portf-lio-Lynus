@@ -30,10 +30,11 @@ function applyAccent(name) {
 
 const NAV = {
   links: [
-    { label: "Plataforma", href: "#plataforma" },
-    { label: "Recursos", href: "#recursos" },
-    { label: "Soluções", href: "#solucoes" },
-    { label: "Preços", href: "#precos" },
+    { label: "Início",      href: "#top" },
+    { label: "Sistemas",    href: "#solucoes" },
+    { label: "Dashboards",  href: "#plataforma" },
+    { label: "Contato",     href: "#cta" },
+    { label: "Sobre",       href: "#precos" },
   ],
   signin: "Entrar",
   cta: "Começar agora",
