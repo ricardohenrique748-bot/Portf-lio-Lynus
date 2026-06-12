@@ -14,6 +14,7 @@
   align-items: flex-end;
   gap: 3px;
   padding-bottom: 3px;
+  height: 62px; /* fixed = max bar height (8×6 + 7×2), nome não se move */
 }
 
 .logo-col {
