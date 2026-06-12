@@ -242,7 +242,7 @@ function Nav() {
           {NAV.links.map((l) => <a key={l.label} href={l.href}>{l.label}</a>)}
         </div>
         <div className="nav-actions">
-          <a className="nav-signin" href="#">{NAV.signin}</a>
+          <a className="nav-signin" href="login.html">{NAV.signin}</a>
           <a className="btn btn-primary btn-sm" href="#cta">{NAV.cta}</a>
         </div>
       </div>
