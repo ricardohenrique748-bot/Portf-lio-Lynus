@@ -139,7 +139,21 @@ function PageLoader() {
 
   return (
     <div className="page-loader">
-      <img src="logo.webp" alt="Lynus Tech" className="loader-logo" />
+      <div className="loader-mark">
+        <div className="logo-bars" aria-hidden="true">
+          {[2,4,6,5,3].map((h, ci) => (
+            <div key={ci} className="logo-col">
+              {Array.from({ length: h }, (_, ri) => (
+                <div key={ri}
+                  className={'logo-px' + (ri === h - 1 ? ' logo-px-top' : '')}
+                  style={{ animationDelay: `${ci * 0.07 + ri * 0.04}s` }}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+        <span className="logo-text loader-text">LYNUS</span>
+      </div>
       <div className="loader-track"><div className="loader-fill" /></div>
     </div>
   );
