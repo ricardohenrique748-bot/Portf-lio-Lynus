@@ -94,11 +94,7 @@ function Cursor() {
     if (!dot || !ring) return;
 
     const lerp = (a, b, t) => a + (b - a) * t;
-    const onMove = (e) => {
-      m.current.mx = e.clientX;
-      m.current.my = e.clientY;
-      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    };
+    const onMove = (e) => { m.current.mx = e.clientX; m.current.my = e.clientY; };
     const loop = () => {
       m.current.rx = lerp(m.current.rx, m.current.mx, 0.1);
       m.current.ry = lerp(m.current.ry, m.current.my, 0.1);
@@ -124,12 +120,7 @@ function Cursor() {
     };
   }, []);
 
-  return (
-    <>
-      <span className="cursor-dot" ref={dotRef} aria-hidden="true" />
-      <span className="cursor-ring" ref={ringRef} aria-hidden="true" />
-    </>
-  );
+  return <span className="cursor-bubble" ref={ringRef} aria-hidden="true" />;
 }
 
 function PageLoader() {
