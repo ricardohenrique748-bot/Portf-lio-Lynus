@@ -2,6 +2,86 @@
    LYNUS TECH — Page sections
    ============================================================ */
 
+function ThreeBackground() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const T = window.THREE;
+    const canvas = canvasRef.current;
+    if (!T || !canvas) return;
+
+    const renderer = new T.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const scene = new T.Scene();
+    const camera = new T.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.z = 7;
+
+    const mkPts = (count, spread, color, size) => {
+      const geo = new T.BufferGeometry();
+      const pos = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        pos[i*3]   = (Math.random() - 0.5) * spread;
+        pos[i*3+1] = (Math.random() - 0.5) * spread;
+        pos[i*3+2] = (Math.random() - 0.5) * spread * 0.6;
+      }
+      geo.setAttribute('position', new T.BufferAttribute(pos, 3));
+      const mat = new T.PointsMaterial({ color, size, transparent: true, opacity: 0.7, sizeAttenuation: true });
+      return new T.Points(geo, mat);
+    };
+
+    const p1 = mkPts(900, 26, 0x6b8aff, 0.028);
+    const p2 = mkPts(220, 22, 0x36d0e8, 0.05);
+    const p3 = mkPts(120, 18, 0xffffff, 0.018);
+    scene.add(p1, p2, p3);
+
+    let mx = 0, my = 0, sy = 0;
+    let lx = 0, ly = 0;
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    const onMouse = (e) => { mx = (e.clientX / window.innerWidth - 0.5) * 2; my = (e.clientY / window.innerHeight - 0.5) * 2; };
+    const onScroll = () => { sy = window.scrollY; };
+    window.addEventListener('mousemove', onMouse, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const clock = new T.Clock();
+    let rafId;
+    const tick = () => {
+      rafId = requestAnimationFrame(tick);
+      const t = clock.getElapsedTime();
+      lx = lerp(lx, mx, 0.025);
+      ly = lerp(ly, my, 0.025);
+      p1.rotation.y = t * 0.022 + lx * 0.14;
+      p1.rotation.x = ly * 0.09;
+      p2.rotation.y = t * 0.014 - lx * 0.07;
+      p2.rotation.x = -ly * 0.05;
+      p3.rotation.y = t * 0.03  + lx * 0.04;
+      camera.position.y = -sy * 0.0012;
+      renderer.render(scene, camera);
+    };
+    tick();
+
+    const onResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+    window.addEventListener('resize', onResize);
+    canvas.classList.add('three-ready');
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', onMouse);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      renderer.dispose();
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="three-bg" aria-hidden="true" />;
+}
+
 function Cursor() {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
@@ -287,4 +367,4 @@ function Footer() {
   );
 }
 
-window.LynusSections = { Nav, Hero, Stats, Features, CTASection, Footer, Cursor, PageLoader };
+window.LynusSections = { Nav, Hero, Stats, Features, CTASection, Footer, Cursor, PageLoader, ThreeBackground };

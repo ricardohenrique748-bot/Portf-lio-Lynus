@@ -212,6 +212,17 @@ body[data-bg="minimal"] .bg-layer .glow-2 { display: none; }
 /* Smooth scroll */
 html { scroll-behavior: smooth; }
 
+/* ---- Three.js canvas ---- */
+.three-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+.three-bg.three-ready { opacity: 1; }
+
 /* ---- Custom cursor ---- */
 .custom-cursor, .custom-cursor * { cursor: none !important; }
 
