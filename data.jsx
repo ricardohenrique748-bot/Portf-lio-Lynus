@@ -43,8 +43,8 @@ const NAV = {
 const HERO = {
   badge: "Plataforma de resposta a incidentes",
   badgePill: "v3.0 · IA de correlação",
-  title: ["Resolva incidentes", "antes que virem", "crises."],
-  titleAccentLine: 2, // index of line to accent
+  title: ["Problemas acontecem.", "A Lynus", "resolve."],
+  titleAccentLine: 2,
   sub: "A Lynus Tech é a central completa para mapear, automatizar e otimizar os fluxos da sua operação. Detecção de gargalos em tempo real, automação de workflows e relatórios inteligentes — tudo em um só lugar.",
   ctaPrimary: "Começar agora",
   ctaSecondary: "Agendar demo",
