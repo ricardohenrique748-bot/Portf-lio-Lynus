@@ -146,18 +146,46 @@ function PageLoader() {
 }
 
 function Wordmark() {
-  const cols = [2, 4, 6, 5, 3];
+  const BASE    = [2, 4, 6, 5, 3];
+  const MAX     = [4, 6, 8, 7, 5];
+  const targets = useRef([...BASE]);
+  const [heights, setHeights] = useState(BASE);
+  const [live,    setLive]    = useState(false);
+
+  /* start equalizer after build-in animation */
+  useEffect(() => {
+    const t = setTimeout(() => setLive(true), 2600);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!live) return;
+    const id = setInterval(() => {
+      targets.current = targets.current.map((h, i) =>
+        Math.random() < 0.55
+          ? Math.max(1, Math.min(MAX[i], h + (Math.random() < 0.5 ? 1 : -1)))
+          : h
+      );
+      setHeights(prev => prev.map((h, i) => {
+        if (h < targets.current[i]) return h + 1;
+        if (h > targets.current[i]) return h - 1;
+        return h;
+      }));
+    }, 150);
+    return () => clearInterval(id);
+  }, [live]);
+
   return (
     <a className="wordmark" href="#top" aria-label="Lynus Tech">
       <div className="logo-mark">
         <div className="logo-bars" aria-hidden="true">
-          {cols.map((h, ci) => (
+          {heights.map((h, ci) => (
             <div key={ci} className="logo-col">
               {Array.from({ length: h }, (_, ri) => (
                 <div
                   key={ri}
-                  className={'logo-px' + (ri === 0 ? ' logo-px-top' : '')}
-                  style={{ animationDelay: `${1.5 + ci * 0.07 + (h - 1 - ri) * 0.04}s` }}
+                  className={'logo-px' + (ri === h - 1 ? ' logo-px-top' : '')}
+                  style={{ animationDelay: live ? '0s' : `${1.5 + ci * 0.07 + ri * 0.04}s` }}
                 />
               ))}
             </div>
