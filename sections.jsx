@@ -2,6 +2,78 @@
    LYNUS TECH — Page sections
    ============================================================ */
 
+function Cursor() {
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
+  const m = useRef({ mx: 0, my: 0, rx: 0, ry: 0, raf: null });
+
+  useEffect(() => {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const dot = dotRef.current;
+    const ring = ringRef.current;
+    if (!dot || !ring) return;
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const onMove = (e) => {
+      m.current.mx = e.clientX;
+      m.current.my = e.clientY;
+      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    };
+    const loop = () => {
+      m.current.rx = lerp(m.current.rx, m.current.mx, 0.1);
+      m.current.ry = lerp(m.current.ry, m.current.my, 0.1);
+      ring.style.transform = `translate(${m.current.rx}px, ${m.current.ry}px)`;
+      m.current.raf = requestAnimationFrame(loop);
+    };
+    const bindHover = () => {
+      document.querySelectorAll('a, button, .btn, .bento-card, .nav-links a').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('cursor-hover'));
+      });
+    };
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+    m.current.raf = requestAnimationFrame(loop);
+    document.body.classList.add('custom-cursor');
+    setTimeout(bindHover, 800);
+
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      cancelAnimationFrame(m.current.raf);
+      document.body.classList.remove('custom-cursor');
+    };
+  }, []);
+
+  return (
+    <>
+      <span className="cursor-dot" ref={dotRef} aria-hidden="true" />
+      <span className="cursor-ring" ref={ringRef} aria-hidden="true" />
+    </>
+  );
+}
+
+function PageLoader() {
+  const [gone, setGone] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const t = setTimeout(() => {
+      document.body.style.overflow = '';
+      setTimeout(() => setGone(true), 650);
+    }, 1400);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (gone) return null;
+
+  return (
+    <div className="page-loader">
+      <img src="logo.webp" alt="Lynus Tech" className="loader-logo" />
+      <div className="loader-track"><div className="loader-fill" /></div>
+    </div>
+  );
+}
+
 function Wordmark() {
   return (
     <a className="wordmark" href="#top" aria-label="Lynus Tech">
@@ -215,4 +287,4 @@ function Footer() {
   );
 }
 
-window.LynusSections = { Nav, Hero, Stats, Features, CTASection, Footer };
+window.LynusSections = { Nav, Hero, Stats, Features, CTASection, Footer, Cursor, PageLoader };
