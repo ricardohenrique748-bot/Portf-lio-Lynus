@@ -2,6 +2,70 @@
    LYNUS TECH — Section styles
    ============================================================ */
 
+/* ---------- LOGO MARK ---------- */
+.logo-mark {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.logo-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding-bottom: 3px;
+}
+
+.logo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logo-px {
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 5px var(--accent-soft);
+  animation: pxIn 0.3s cubic-bezier(.16,1,.3,1) both;
+}
+
+.logo-px-top {
+  background: var(--accent-2);
+  box-shadow: 0 0 7px var(--accent-2);
+  animation: pxIn 0.3s cubic-bezier(.16,1,.3,1) both,
+             pxGlow 2.5s ease-in-out 2.2s infinite;
+}
+
+@keyframes pxIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pxGlow {
+  0%, 100% { box-shadow: 0 0 5px var(--accent-2); opacity: 1; }
+  50%       { box-shadow: 0 0 14px var(--accent-2); opacity: 0.65; }
+}
+
+.logo-text {
+  font-family: var(--font);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  background: linear-gradient(120deg, var(--text) 30%, var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logoTxtIn 0.6s ease 1.65s both;
+}
+
+@keyframes logoTxtIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* ---------- NAV ---------- */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;

@@ -146,9 +146,25 @@ function PageLoader() {
 }
 
 function Wordmark() {
+  const cols = [2, 4, 6, 5, 3];
   return (
     <a className="wordmark" href="#top" aria-label="Lynus Tech">
-      <img src="logo.webp" alt="Lynus Tech" className="wordmark-gif" />
+      <div className="logo-mark">
+        <div className="logo-bars" aria-hidden="true">
+          {cols.map((h, ci) => (
+            <div key={ci} className="logo-col">
+              {Array.from({ length: h }, (_, ri) => (
+                <div
+                  key={ri}
+                  className={'logo-px' + (ri === 0 ? ' logo-px-top' : '')}
+                  style={{ animationDelay: `${1.5 + ci * 0.07 + (h - 1 - ri) * 0.04}s` }}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+        <span className="logo-text">LYNUS</span>
+      </div>
     </a>
   );
 }
