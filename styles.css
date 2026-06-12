@@ -275,7 +275,10 @@ html { scroll-behavior: smooth; }
 }
 .loader-mark .logo-bars { height: auto; padding-bottom: 4px; }
 .loader-mark .logo-px   { width: 7px; height: 7px; }
-.loader-text            { font-size: 28px; }
+.loader-text {
+  font-size: 28px;
+  animation: logoTxtIn 0.5s ease 0.25s both !important;
+}
 
 @keyframes loaderMarkIn {
   from { opacity: 0; transform: scale(1.9) translateY(12px); }
