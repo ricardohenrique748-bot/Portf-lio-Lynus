@@ -281,7 +281,7 @@ function Hero({ layout }) {
               ))}
             </ul>
           </div>
-          <div className="hero-visual reveal" id="plataforma">
+          <div className="hero-visual reveal">
             <LynusDashboard density={layout === "split" ? "focus" : "command"} />
           </div>
         </div>
@@ -316,6 +316,43 @@ function Features() {
                 </div>
               )}
             </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Dashboards() {
+  const { SISTEMAS } = window.LYNUS;
+  return (
+    <section className="section dash-section" id="plataforma">
+      <div className="wrap">
+        <div className="section-head reveal" style={{marginBottom:'56px'}}>
+          <div className="eyebrow"><span className="dot"/>&nbsp;Dashboards</div>
+          <h2>Visualize sua operação em tempo real</h2>
+          <p>Painéis interativos com dados ao vivo para cada área da sua empresa. Tome decisões baseadas em informação real, não em suposições.</p>
+        </div>
+        <div className="dash-grid">
+          {SISTEMAS.map(s => (
+            <a key={s.id} href={s.href} className="dash-card glass reveal" style={{'--card-accent': s.accent}}>
+              <div className="dash-preview">
+                <MockScreen type={s.preview} accent={s.accent}/>
+              </div>
+              <div className="dash-info">
+                <span className="dash-icon">{s.icon}</span>
+                <div>
+                  <h3 className="dash-title">{s.title}</h3>
+                  <p className="dash-desc">{s.desc}</p>
+                </div>
+              </div>
+              <div className="dash-tags">
+                {s.tags.map(t => <span key={t} className="dash-tag">{t}</span>)}
+              </div>
+              <div className="dash-footer">
+                <span className="dash-link">Abrir dashboard <span>→</span></span>
+              </div>
+            </a>
           ))}
         </div>
       </div>
@@ -372,24 +409,58 @@ function Sobre() {
             </div>
           </div>
           <div className="sobre-story-right">
-            <div className="sobre-visual">
-              <div className="sobre-vis-grid">
-                {Array.from({length:16}).map((_,i)=>{
-                  const accentIdx = [0,3,5,9,12,15];
-                  const delays = {0:'0s',3:'0.5s',5:'1s',9:'1.5s',12:'2s',15:'2.5s'};
-                  const isAccent = accentIdx.includes(i);
-                  return (
-                    <div key={i}
-                      className={`sobre-vis-cell${isAccent?' sobre-vis-accent':''}`}
-                      style={isAccent?{animationDelay: delays[i]}:{}}
-                    />
-                  );
-                })}
+            <div className="radar-wrap">
+              <div className="radar-scope">
+                <div className="radar-ring r1"/>
+                <div className="radar-ring r2"/>
+                <div className="radar-ring r3"/>
+                <div className="radar-cross-h"/>
+                <div className="radar-cross-v"/>
+                <div className="radar-sweep"/>
+                {/* Power BI */}
+                <div className="radar-app" style={{top:'22%',left:'69%',animationDelay:'0.38s','--ac':'#F2C811'}}>
+                  <svg viewBox="0 0 16 12" width="18" height="14" fill="none">
+                    <rect x="0" y="7" width="3" height="5" rx=".4" fill="#F2C811"/>
+                    <rect x="4" y="4" width="3" height="8" rx=".4" fill="#F2C811"/>
+                    <rect x="8" y="1" width="3" height="11" rx=".4" fill="#F2C811"/>
+                    <rect x="12" y="5" width="3" height="7" rx=".4" fill="#F2C811" opacity=".55"/>
+                  </svg>
+                </div>
+                {/* VS Code */}
+                <div className="radar-app" style={{top:'68%',left:'68%',animationDelay:'1.13s','--ac':'#007ACC'}}>
+                  <svg viewBox="0 0 18 13" width="18" height="13" fill="none">
+                    <path d="M5 1L1 6.5L5 12" stroke="#007ACC" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M13 1L17 6.5L13 12" stroke="#007ACC" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <line x1="7" y1="6.5" x2="11" y2="6.5" stroke="#007ACC" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                {/* Excel */}
+                <div className="radar-app" style={{top:'72%',left:'35%',animationDelay:'1.75s','--ac':'#217346'}}>
+                  <svg viewBox="0 0 16 16" width="16" height="16">
+                    <rect width="16" height="16" rx="2.5" fill="#217346"/>
+                    <path d="M4.5 4.5L11.5 11.5M11.5 4.5L4.5 11.5" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                {/* GitHub */}
+                <div className="radar-app" style={{top:'44%',left:'19%',animationDelay:'2.33s','--ac':'#cdd9e5'}}>
+                  <svg viewBox="0 0 16 16" width="16" height="16" fill="#cdd9e5">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38l-.01-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48L14 15c0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                  </svg>
+                </div>
+                {/* SAP */}
+                <div className="radar-app" style={{top:'27%',left:'37%',animationDelay:'2.75s','--ac':'#0070F2'}}>
+                  <svg viewBox="0 0 26 14" width="26" height="14">
+                    <rect width="26" height="14" rx="2" fill="#0070F2"/>
+                    <text x="3" y="11" fill="white" fontFamily="Arial,sans-serif" fontWeight="bold" fontSize="10">SAP</text>
+                  </svg>
+                </div>
+                <div className="radar-center"><span>L</span></div>
               </div>
-              <div className="sobre-vis-radar"/>
-              <div className="sobre-vis-ring"/>
-              <div className="sobre-vis-ring sobre-vis-ring-2"/>
-              <div className="sobre-vis-center"><span>L</span></div>
+              <div className="radar-status">
+                <span className="radar-status-dot"/>
+                <span className="radar-status-text">SCANNING</span>
+                <span className="radar-status-coords">5 sinais detectados</span>
+              </div>
             </div>
             {/* Mission statement */}
             <div className="sobre-mission-box glass">
@@ -602,4 +673,4 @@ function SistemasShowcase() {
   );
 }
 
-window.LynusSections = { Nav, Hero, Features, SistemasShowcase, Sobre, CTASection, Footer, Cursor, PageLoader, ThreeBackground };
+window.LynusSections = { Nav, Hero, Features, SistemasShowcase, Dashboards, Sobre, CTASection, Footer, Cursor, PageLoader, ThreeBackground };
