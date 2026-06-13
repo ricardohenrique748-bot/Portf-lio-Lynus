@@ -286,12 +286,7 @@ function Hero({ layout }) {
           </div>
         </div>
 
-        <div className="trust reveal">
-          <span className="trust-label">{HERO.trustLabel}</span>
-          <div className="trust-logos">
-            {LOGOS.map((n) => <span key={n} className="trust-logo">{n}</span>)}
-          </div>
-        </div>
+
       </div>
     </header>
   );
@@ -323,6 +318,86 @@ function Features() {
             </article>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function Sobre() {
+  const { SOBRE } = window.LYNUS;
+  return (
+    <section className="section sobre-section" id="sobre">
+      <div className="wrap">
+
+        {/* Header + founder */}
+        <div className="section-head reveal" style={{marginBottom:'48px'}}>
+          <div className="eyebrow"><span className="dot"/>&nbsp;{SOBRE.eyebrow}</div>
+          <h2>{SOBRE.title}</h2>
+          <p className="sobre-mission">{SOBRE.mission}</p>
+          <div className="sobre-founder">
+            <div className="sobre-founder-avatar">RH</div>
+            <div>
+              <strong>{SOBRE.founder.name}</strong>
+              <span>{SOBRE.founder.role}</span>
+            </div>
+            <p className="sobre-founder-bio">{SOBRE.founder.bio}</p>
+          </div>
+        </div>
+
+        {/* Values */}
+        <div className="sobre-values reveal">
+          {SOBRE.values.map(v => (
+            <div key={v.label} className="sobre-value glass">
+              <span className="sobre-value-icon">{v.icon}</span>
+              <h4>{v.label}</h4>
+              <p>{v.text}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Story + timeline */}
+        <div className="sobre-story-wrap reveal">
+          <div className="sobre-story-left">
+            <h3>De onde viemos</h3>
+            {SOBRE.storyNarrative.map((p, i) => <p key={i}>{p}</p>)}
+            <div className="sobre-timeline">
+              {SOBRE.timeline.map(s => (
+                <div key={s.year} className="sobre-tl-item">
+                  <span className="sobre-tl-year">{s.year}</span>
+                  <span className="sobre-tl-text">{s.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="sobre-story-right">
+            <div className="sobre-visual">
+              <div className="sobre-vis-grid">
+                {Array.from({length:16}).map((_,i)=>(
+                  <div key={i} className={`sobre-vis-cell${[0,3,5,9,12,15].includes(i)?' sobre-vis-accent':''}`}/>
+                ))}
+              </div>
+              <div className="sobre-vis-ring"/>
+              <div className="sobre-vis-ring sobre-vis-ring-2"/>
+              <div className="sobre-vis-center"><span>L</span></div>
+            </div>
+            {/* Mission statement */}
+            <div className="sobre-mission-box glass">
+              <span className="sobre-mission-label">Nossa missão</span>
+              <p>{SOBRE.missionStatement}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Numbers */}
+        <div className="sobre-numbers reveal">
+          {SOBRE.numbers.map(n => (
+            <div key={n.label} className="sobre-num">
+              <span className="sobre-num-val">{n.v}</span>
+              <span className="sobre-num-label">{n.label}</span>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );
@@ -516,4 +591,4 @@ function SistemasShowcase() {
   );
 }
 
-window.LynusSections = { Nav, Hero, Features, SistemasShowcase, CTASection, Footer, Cursor, PageLoader, ThreeBackground };
+window.LynusSections = { Nav, Hero, Features, SistemasShowcase, Sobre, CTASection, Footer, Cursor, PageLoader, ThreeBackground };
