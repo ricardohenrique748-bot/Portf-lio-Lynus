@@ -154,10 +154,14 @@
   max-width: 600px; margin-left: auto; margin-right: auto;
 }
 .sobre-founder-avatar {
-  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
-  background: var(--accent-soft); border: 2px solid var(--accent-line);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent);
+  width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid var(--accent-line);
+  overflow: hidden;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+.sobre-founder-avatar img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  display: block;
 }
 .sobre-founder strong { display: block; font-size: 15px; font-weight: 700; color: var(--text); }
 .sobre-founder span { font-size: 12px; color: var(--accent); font-family: var(--mono); }
@@ -207,11 +211,26 @@
 .sobre-vis-cell {
   border-radius: 8px; background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.3s;
 }
-.sobre-vis-accent { background: var(--accent-soft); border-color: var(--accent-line); }
+.sobre-vis-accent {
+  background: var(--accent-soft); border-color: var(--accent-line);
+  animation: cellGlow 3s ease-in-out infinite;
+}
+@keyframes cellGlow {
+  0%, 100% { background: var(--accent-soft); border-color: var(--accent-line); box-shadow: none; }
+  50%       { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 14px var(--accent-glow); opacity: 0.85; }
+}
+
+.sobre-vis-radar {
+  position: absolute; inset: 30px; border-radius: 50%; z-index: 1;
+  background: conic-gradient(from 0deg, transparent 0%, var(--accent-soft) 12%, transparent 18%);
+  animation: sobreRing 3s linear infinite;
+  opacity: 0.7;
+}
 
 .sobre-vis-ring {
-  position: absolute; inset: 30px; border-radius: 50%;
+  position: absolute; inset: 30px; border-radius: 50%; z-index: 2;
   border: 1px solid var(--accent-line);
   animation: sobreRing 5s linear infinite;
 }
@@ -219,11 +238,15 @@
 @keyframes sobreRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 .sobre-vis-center {
-  position: relative; z-index: 2;
+  position: relative; z-index: 3;
   width: 76px; height: 76px; border-radius: 50%;
   background: var(--accent-soft); border: 2px solid var(--accent-line);
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 32px var(--accent-glow);
+  animation: centerPulse 2.5s ease-in-out infinite;
+}
+@keyframes centerPulse {
+  0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
+  50%       { box-shadow: 0 0 48px var(--accent-glow), 0 0 80px var(--accent-soft); }
 }
 .sobre-vis-center span {
   font-size: 30px; font-weight: 800; color: var(--accent);
