@@ -297,49 +297,6 @@ function Hero({ layout }) {
   );
 }
 
-function Stats() {
-  const { STATS } = window.LYNUS;
-  return (
-    <section className="section stats-section" id="solucoes">
-      <div className="wrap">
-        <div className="stats-row reveal">
-          {STATS.map((s) => <StatBig key={s.k} {...s} />)}
-        </div>
-      </div>
-    </section>
-  );
-}
-function StatBig({ v, suf, k, d, dec }) {
-  const [val, setVal] = useState(0);
-  const ref = useRef(null);
-  useEffect(() => {
-    let started = false;
-    const poll = setInterval(() => {
-      if (started || !ref.current) return;
-      const r = ref.current.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.9 && r.bottom > 0) {
-        started = true;
-        clearInterval(poll);
-        const dur = 1500, start = Date.now();
-        const anim = setInterval(() => {
-          const p = Math.min(1, (Date.now() - start) / dur);
-          const e = 1 - Math.pow(1 - p, 3);
-          setVal(v * e);
-          if (p >= 1) { setVal(v); clearInterval(anim); }
-        }, 33);
-      }
-    }, 120);
-    return () => clearInterval(poll);
-  }, []);
-  const disp = dec ? val.toFixed(dec) : Math.round(val).toLocaleString("pt-BR");
-  return (
-    <div className="stat-big" ref={ref}>
-      <span className="stat-big-v">{disp}<i>{suf}</i></span>
-      <span className="stat-big-k">{k}</span>
-      <span className="stat-big-d">{d}</span>
-    </div>
-  );
-}
 
 function Features() {
   const { FEATURES } = window.LYNUS;
@@ -416,4 +373,147 @@ function Footer() {
   );
 }
 
-window.LynusSections = { Nav, Hero, Stats, Features, CTASection, Footer, Cursor, PageLoader, ThreeBackground };
+/* ---- Mini dashboard preview (CSS-only mockup) ---- */
+function MockScreen({ type, accent: a }) {
+  const dim  = 'rgba(255,255,255,0.05)';
+  const bd   = 'rgba(255,255,255,0.09)';
+  const t3   = 'rgba(255,255,255,0.18)';
+  const row  = (items) => (
+    <div style={{display:'flex',gap:'5px'}}>
+      {items.map((k,i)=>(
+        <div key={i} style={{flex:1,background:k.hi?`${a}18`:dim,border:`1px solid ${k.hi?a+'32':bd}`,borderRadius:'5px',padding:'5px'}}>
+          <div style={{height:'3px',background:t3,borderRadius:'2px',marginBottom:'3px',width:'65%'}}/>
+          <div style={{height:'8px',background:k.c,borderRadius:'2px',width:k.w||'70%',opacity:k.hi?0.9:0.5}}/>
+          {k.sub&&<div style={{height:'3px',background:t3,borderRadius:'2px',marginTop:'3px',width:'40%'}}/>}
+        </div>
+      ))}
+    </div>
+  );
+  const tableRows = (n, ac) => (
+    <div style={{background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'5px 8px',display:'flex',flexDirection:'column',gap:'4px'}}>
+      {Array.from({length:n}).map((_,i)=>(
+        <div key={i} style={{display:'flex',gap:'5px',alignItems:'center'}}>
+          <div style={{width:'9%',height:'4px',background:i===0?`${ac}55`:t3,borderRadius:'2px'}}/>
+          <div style={{flex:1,height:'4px',background:t3,borderRadius:'2px'}}/>
+          <div style={{width:'22%',height:'9px',background:i===0?`${ac}28`:i===1?'rgba(52,224,161,.18)':'rgba(255,181,71,.18)',borderRadius:'6px'}}/>
+        </div>
+      ))}
+    </div>
+  );
+  return (
+    <div style={{width:'100%',aspectRatio:'16/10',background:'#0C0D13',overflow:'hidden',display:'flex',flexDirection:'column',borderRadius:'10px'}}>
+      {/* topbar */}
+      <div style={{height:'26px',background:'rgba(255,255,255,0.03)',borderBottom:`1px solid ${bd}`,display:'flex',alignItems:'center',padding:'0 10px',gap:'6px',flexShrink:0}}>
+        <div style={{width:'56px',height:'6px',background:`${a}50`,borderRadius:'3px'}}/>
+        <div style={{marginLeft:'auto',display:'flex',gap:'4px'}}>
+          <div style={{width:'20px',height:'6px',background:dim,borderRadius:'3px'}}/>
+          <div style={{width:'28px',height:'6px',background:`${a}35`,borderRadius:'3px'}}/>
+        </div>
+      </div>
+      {/* body */}
+      <div style={{flex:1,display:'flex',overflow:'hidden'}}>
+        {/* sidebar */}
+        <div style={{width:'42px',background:'rgba(255,255,255,0.02)',borderRight:`1px solid ${bd}`,display:'flex',flexDirection:'column',alignItems:'center',gap:'7px',padding:'10px 0',flexShrink:0}}>
+          {[1,2,3,4,5].map(i=><div key={i} style={{width:'26px',height:'5px',borderRadius:'3px',background:i===1?`${a}55`:dim}}/>)}
+        </div>
+        {/* content */}
+        <div style={{flex:1,padding:'8px',display:'flex',flexDirection:'column',gap:'6px',overflow:'hidden'}}>
+
+          {type==='finance'&&<>
+            {row([{hi:true,c:a,sub:1},{c:'#ff5c6c',w:'55%'},{c:'#34e0a1',w:'75%'},{c:t3,w:'45%'}])}
+            <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'6px 8px',display:'flex',alignItems:'flex-end',gap:'2px',overflow:'hidden'}}>
+              {[38,52,45,68,60,78,86,74,90,84,100,93].map((h,i)=>(
+                <div key={i} style={{flex:1,height:`${h*0.73}%`,background:i===10?a:`${a}22`,borderRadius:'2px 2px 0 0'}}/>
+              ))}
+            </div>
+            {tableRows(3,a)}
+          </>}
+
+          {type==='maintenance'&&<>
+            {row([{hi:true,c:a},{c:'#34e0a1',w:'60%'},{c:'#ffb547',w:'65%'},{c:t3,w:'45%'}])}
+            <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'6px',display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'4px',alignContent:'start'}}>
+              {['ok','ok','warn','ok','ok','crit','ok','ok'].map((s,i)=>(
+                <div key={i} style={{background:'rgba(255,255,255,0.02)',border:`1px solid ${s==='ok'?'#34e0a118':s==='warn'?'#ffb54728':'#ff5c6c28'}`,borderRadius:'4px',padding:'5px 3px',display:'flex',flexDirection:'column',alignItems:'center',gap:'3px'}}>
+                  <div style={{width:'6px',height:'6px',borderRadius:'50%',background:s==='ok'?'#34e0a1':s==='warn'?'#ffb547':'#ff5c6c',boxShadow:`0 0 5px ${s==='ok'?'#34e0a155':s==='warn'?'#ffb54755':'#ff5c6c55'}`}}/>
+                  <div style={{height:'3px',background:t3,borderRadius:'2px',width:'75%'}}/>
+                </div>
+              ))}
+            </div>
+            <div style={{background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'5px 7px',display:'flex',flexDirection:'column',gap:'4px'}}>
+              {[{c:a},{c:'#ffb547'},{c:'#34e0a1'}].map((o,i)=>(
+                <div key={i} style={{display:'flex',alignItems:'center',gap:'5px'}}>
+                  <div style={{width:'5px',height:'5px',borderRadius:'50%',background:o.c,flexShrink:0}}/>
+                  <div style={{flex:1,height:'4px',background:t3,borderRadius:'2px'}}/>
+                  <div style={{width:'22%',height:'8px',background:`${o.c}28`,borderRadius:'4px'}}/>
+                </div>
+              ))}
+            </div>
+          </>}
+
+          {type==='pcm'&&<>
+            {row([{hi:true,c:a},{c:'rgba(52,224,161,.55)',w:'75%'},{c:'rgba(255,181,71,.55)',w:'60%'}])}
+            <div style={{flex:1,display:'flex',gap:'5px',overflow:'hidden'}}>
+              <div style={{width:'42%',background:dim,border:`1px solid ${bd}`,borderRadius:'6px',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                <div style={{position:'relative',width:'46px',height:'46px',flexShrink:0}}>
+                  <div style={{position:'absolute',inset:0,borderRadius:'50%',background:`conic-gradient(${a} 0% 60%, rgba(52,224,161,.7) 60% 80%, rgba(255,181,71,.7) 80% 100%)`}}/>
+                  <div style={{position:'absolute',inset:'10px',borderRadius:'50%',background:'#0C0D13'}}/>
+                </div>
+              </div>
+              <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'7px 6px',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+                {[75,50,90,42,65].map((h,i)=>(
+                  <div key={i} style={{display:'flex',alignItems:'center',gap:'3px'}}>
+                    <div style={{width:'3px',height:'3px',borderRadius:'50%',background:t3,flexShrink:0}}/>
+                    <div style={{flex:h/100,height:'4px',background:`${a}60`,borderRadius:'2px',transition:'flex 1s ease'}}/>
+                    <div style={{flex:1-h/100,height:'4px',background:t3,borderRadius:'2px'}}/>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {tableRows(3,a)}
+          </>}
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SistemasShowcase() {
+  const { SISTEMAS } = window.LYNUS;
+  return (
+    <section className="section sistemas-section reveal" id="sistemas">
+      <div className="wrap">
+        <div className="section-head" style={{marginBottom:'60px'}}>
+          <div className="eyebrow"><span className="dot"/>&nbsp;Nossas Soluções</div>
+          <h2>Sistemas feitos para operar</h2>
+          <p>Cada plataforma construída para resolver um problema real — com dados em tempo real e UX pensada para o dia a dia da sua equipe.</p>
+        </div>
+        <div className="sistemas-grid">
+          {SISTEMAS.map((s, i) => (
+            <a key={s.id} href={s.href} className="sistema-card reveal" style={{'--card-accent': s.accent, animationDelay: `${i * 0.12}s`}}>
+              <div className="sistema-num">0{i+1}</div>
+              <div className="sistema-preview">
+                <MockScreen type={s.preview} accent={s.accent}/>
+              </div>
+              <div className="sistema-body">
+                <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+                  <span className="sistema-icon">{s.icon}</span>
+                  <h3 className="sistema-title">{s.title}</h3>
+                </div>
+                <p className="sistema-desc">{s.desc}</p>
+                <div className="sistema-tags">
+                  {s.tags.map(tag => (
+                    <span key={tag} className="sistema-tag">{tag}</span>
+                  ))}
+                </div>
+                <div className="sistema-cta">Ver sistema <span>→</span></div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+window.LynusSections = { Nav, Hero, Features, SistemasShowcase, CTASection, Footer, Cursor, PageLoader, ThreeBackground };
