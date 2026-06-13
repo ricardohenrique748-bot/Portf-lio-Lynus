@@ -335,7 +335,9 @@ function Sobre() {
           <h2>{SOBRE.title}</h2>
           <p className="sobre-mission">{SOBRE.mission}</p>
           <div className="sobre-founder">
-            <div className="sobre-founder-avatar">RH</div>
+            <div className="sobre-founder-avatar">
+              <img src="ricardo.jpg" alt="Ricardo Henrique" />
+            </div>
             <div>
               <strong>{SOBRE.founder.name}</strong>
               <span>{SOBRE.founder.role}</span>
@@ -372,10 +374,19 @@ function Sobre() {
           <div className="sobre-story-right">
             <div className="sobre-visual">
               <div className="sobre-vis-grid">
-                {Array.from({length:16}).map((_,i)=>(
-                  <div key={i} className={`sobre-vis-cell${[0,3,5,9,12,15].includes(i)?' sobre-vis-accent':''}`}/>
-                ))}
+                {Array.from({length:16}).map((_,i)=>{
+                  const accentIdx = [0,3,5,9,12,15];
+                  const delays = {0:'0s',3:'0.5s',5:'1s',9:'1.5s',12:'2s',15:'2.5s'};
+                  const isAccent = accentIdx.includes(i);
+                  return (
+                    <div key={i}
+                      className={`sobre-vis-cell${isAccent?' sobre-vis-accent':''}`}
+                      style={isAccent?{animationDelay: delays[i]}:{}}
+                    />
+                  );
+                })}
               </div>
+              <div className="sobre-vis-radar"/>
               <div className="sobre-vis-ring"/>
               <div className="sobre-vis-ring sobre-vis-ring-2"/>
               <div className="sobre-vis-center"><span>L</span></div>
