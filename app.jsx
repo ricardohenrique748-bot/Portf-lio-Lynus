@@ -1,7 +1,7 @@
 /* ============================================================
    LYNUS TECH — App root + Tweaks
    ============================================================ */
-const { Nav, Hero, Features, SistemasShowcase, Sobre, CTASection, Footer, Cursor, PageLoader, ThreeBackground } = window.LynusSections;
+const { Nav, Hero, Features, SistemasShowcase, Dashboards, Sobre, CTASection, Footer, Cursor, PageLoader, ThreeBackground } = window.LynusSections;
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "accent": "azul",
@@ -104,6 +104,7 @@ function App() {
         <Hero layout={heroLayout} />
         <Features />
         <SistemasShowcase />
+        <Dashboards />
         <Sobre />
         <CTASection />
       </main>
