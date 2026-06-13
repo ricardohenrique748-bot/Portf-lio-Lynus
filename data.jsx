@@ -32,9 +32,10 @@ const NAV = {
   links: [
     { label: "Início",      href: "#top" },
     { label: "Sistemas",    href: "#sistemas" },
+    { label: "Recursos",    href: "#recursos" },
     { label: "Dashboards",  href: "#plataforma" },
     { label: "Contato",     href: "#cta" },
-    { label: "Sobre",       href: "#precos" },
+    { label: "Sobre",       href: "#sobre" },
   ],
   signin: "Entrar",
   cta: "Começar agora",
@@ -171,4 +172,38 @@ const SISTEMAS = [
   },
 ];
 
-window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, LOGOS, STATS, FEATURES, CTA, FOOTER, SISTEMAS, observeVisible, startVisibility };
+const SOBRE = {
+  eyebrow: "Nossa história",
+  title: "Construída por quem viveu a operação de perto",
+  mission: "A Lynus nasce da experiência real dentro de operações industriais, manutenção de frota, planejamento e gestão de processos. Antes de ser uma empresa de tecnologia, ela vem da prática: do dia a dia com ordens de serviço, preventivas atrasadas, compras urgentes e decisões tomadas sem dados confiáveis.",
+  founder: {
+    name: "Ricardo Henrique",
+    role: "Fundador",
+    bio: "Profissional com atuação em planejamento de manutenção, PCM, compras, gestão de indicadores e desenvolvimento de sistemas.",
+  },
+  values: [
+    { icon: "⚡", label: "Velocidade", text: "Operações não podem esperar. Criamos ferramentas que agilizam decisões, reduzem burocracia e aproximam o problema da solução." },
+    { icon: "🎯", label: "Precisão", text: "Indicadores, ordens de serviço, custos e dados operacionais precisam estar corretos e disponíveis. Decidir com base em informação real — não em achismos." },
+    { icon: "🔗", label: "Integração", text: "Setores isolados geram perda de tempo e dinheiro. A Lynus integra manutenção, compras, financeiro e operação em um único fluxo rastreável." },
+  ],
+  storyNarrative: [
+    "A Lynus nasceu da vivência dentro da operação. Dos desafios enfrentados em campo, nas oficinas, nas rotinas de planejamento e nas cobranças por resultado.",
+    "Manutenções sem histórico confiável, peças solicitadas por mensagem, compras perdidas em e-mail, indicadores feitos manualmente e equipes dependendo da memória de uma única pessoa para tomar decisões. A partir dessas dores surgiu a missão.",
+  ],
+  missionStatement: "Criar soluções digitais acessíveis, inteligentes e práticas para empresas que precisam organizar sua operação, controlar seus processos e tomar decisões com mais segurança.",
+  timeline: [
+    { year: "2022", text: "Início da experiência prática em operações industriais, manutenção, planejamento e controle de processos." },
+    { year: "2023", text: "Desenvolvimento das primeiras ideias voltadas para controle de manutenção, ordens de serviço e gestão operacional." },
+    { year: "2024", text: "Expansão para sistemas integrados: compras, financeiro, estoque, dashboards e automação de processos." },
+    { year: "2025", text: "Consolidação da Lynus como empresa de tecnologia com foco em plataformas digitais e gestão inteligente." },
+    { year: "2026", text: "Evolução para soluções completas em sistemas empresariais, PCM, dashboards e desenvolvimento sob demanda." },
+  ],
+  numbers: [
+    { v: "3+", label: "Sistemas ativos" },
+    { v: "100%", label: "Foco em operações" },
+    { v: "0", label: "Planilhas necessárias" },
+    { v: "24/7", label: "Dados em tempo real" },
+  ],
+};
+
+window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, LOGOS, STATS, FEATURES, CTA, FOOTER, SISTEMAS, SOBRE, observeVisible, startVisibility };
