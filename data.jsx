@@ -31,7 +31,7 @@ function applyAccent(name) {
 const NAV = {
   links: [
     { label: "Início",      href: "#top" },
-    { label: "Sistemas",    href: "#solucoes" },
+    { label: "Sistemas",    href: "#sistemas" },
     { label: "Dashboards",  href: "#plataforma" },
     { label: "Contato",     href: "#cta" },
     { label: "Sobre",       href: "#precos" },
@@ -138,4 +138,37 @@ function startVisibility() {
   setTimeout(_checkVisible, 120);
 }
 
-window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, LOGOS, STATS, FEATURES, CTA, FOOTER, observeVisible, startVisibility };
+const SISTEMAS = [
+  {
+    id: 'financeiro',
+    title: 'Sistema Financeiro',
+    desc: 'Controle de receitas, despesas, DRE e fluxo de caixa com gráficos em tempo real.',
+    icon: '💰',
+    href: 'financeiro.html',
+    tags: ['Financeiro', 'DRE', 'ERP'],
+    accent: '#6b8aff',
+    preview: 'finance',
+  },
+  {
+    id: 'manutencao',
+    title: 'PCM',
+    desc: 'Planejamento e controle de manutenções preventivas, preditivas e corretivas.',
+    icon: '🔧',
+    href: 'manutencao.html',
+    tags: ['PCM', 'OS', 'Preventiva'],
+    accent: '#34e0a1',
+    preview: 'maintenance',
+  },
+  {
+    id: 'pcm',
+    title: 'Compras',
+    desc: 'Gestão de pedidos, fornecedores, orçamentos e aprovações de compras.',
+    icon: '🛒',
+    href: 'pcm.html',
+    tags: ['Compras', 'Fornecedores', 'PO'],
+    accent: '#ffb547',
+    preview: 'pcm',
+  },
+];
+
+window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, LOGOS, STATS, FEATURES, CTA, FOOTER, SISTEMAS, observeVisible, startVisibility };
