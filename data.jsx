@@ -199,7 +199,7 @@ const SOBRE = {
     { year: "2026", text: "Evolução para soluções completas em sistemas empresariais, PCM, dashboards e desenvolvimento sob demanda." },
   ],
   numbers: [
-    { v: "3+", label: "Sistemas ativos" },
+    { v: "25+", label: "Sistemas ativos" },
     { v: "100%", label: "Foco em operações" },
     { v: "0", label: "Planilhas necessárias" },
     { v: "24/7", label: "Dados em tempo real" },
