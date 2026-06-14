@@ -250,6 +250,34 @@ function Nav() {
   );
 }
 
+function MacbookMockup() {
+  return (
+    <div className="mb-wrap">
+      <div className="mb-ambient"/>
+      {/* screen lid */}
+      <div className="mb-lid">
+        <div className="mb-lid-bar">
+          <div className="mb-notch"/>
+        </div>
+        <div className="mb-display">
+          <LynusDashboard density="command" />
+        </div>
+        <div className="mb-shine"/>
+        <div className="mb-lid-edge"/>
+      </div>
+      {/* hinge line */}
+      <div className="mb-hinge"/>
+      {/* base / keyboard */}
+      <div className="mb-base">
+        <div className="mb-keyboard"/>
+        <div className="mb-trackpad"/>
+      </div>
+      {/* ground shadow */}
+      <div className="mb-shadow"/>
+    </div>
+  );
+}
+
 function Hero({ layout }) {
   const { HERO, LOGOS } = window.LYNUS;
   return (
@@ -282,7 +310,7 @@ function Hero({ layout }) {
             </ul>
           </div>
           <div className="hero-visual reveal">
-            <LynusDashboard density={layout === "split" ? "focus" : "command"} />
+            <MacbookMockup />
           </div>
         </div>
 
@@ -371,15 +399,29 @@ function Sobre() {
           <div className="eyebrow"><span className="dot"/>&nbsp;{SOBRE.eyebrow}</div>
           <h2>{SOBRE.title}</h2>
           <p className="sobre-mission">{SOBRE.mission}</p>
-          <div className="sobre-founder">
-            <div className="sobre-founder-avatar">
-              <img src="ricardo.jpg" alt="Ricardo Henrique" />
+          <div className="sobre-founders">
+            {/* Ricardo */}
+            <div className="sobre-founder">
+              <div className="sobre-founder-avatar">
+                <img src={SOBRE.founder.photo} alt={SOBRE.founder.name} />
+              </div>
+              <div>
+                <strong>{SOBRE.founder.name}</strong>
+                <span>{SOBRE.founder.role}</span>
+              </div>
+              <p className="sobre-founder-bio">{SOBRE.founder.bio}</p>
             </div>
-            <div>
-              <strong>{SOBRE.founder.name}</strong>
-              <span>{SOBRE.founder.role}</span>
+            {/* Walisson */}
+            <div className="sobre-founder">
+              <div className="sobre-founder-avatar sobre-founder-initials">
+                <span>{SOBRE.coFounder.initials}</span>
+              </div>
+              <div>
+                <strong>{SOBRE.coFounder.name}</strong>
+                <span>{SOBRE.coFounder.role}</span>
+              </div>
+              <p className="sobre-founder-bio">{SOBRE.coFounder.bio}</p>
             </div>
-            <p className="sobre-founder-bio">{SOBRE.founder.bio}</p>
           </div>
         </div>
 
@@ -486,18 +528,111 @@ function Sobre() {
 }
 
 function CTASection() {
-  const { CTA } = window.LYNUS;
+  const [form, setForm] = React.useState({ name: '', email: '', msg: '' });
+  const [sent, setSent] = React.useState(false);
+  const set = k => e => setForm(p => ({...p, [k]: e.target.value}));
+  const send = e => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.msg) return;
+    const sub  = encodeURIComponent(`Contato via site – ${form.name}`);
+    const body = encodeURIComponent(`Nome: ${form.name}\nE-mail: ${form.email}\n\nMensagem:\n${form.msg}`);
+    window.open(`mailto:ricardohenrique748@gmail.com?subject=${sub}&body=${body}`);
+    setSent(true);
+    setTimeout(() => setSent(false), 4000);
+  };
+  const WA_SISTEMAS   = "https://wa.me/5599991754232";
+  const WA_DASHBOARDS = "https://wa.me/5599984035823";
+
   return (
-    <section className="section cta-section" id="cta">
+    <section className="section contact-section" id="cta">
       <div className="wrap">
-        <div className="cta-box glass reveal">
-          <div className="cta-glow"></div>
-          <span className="eyebrow"><span className="dot"></span>{CTA.eyebrow}</span>
-          <h2>{CTA.title}</h2>
-          <p>{CTA.sub}</p>
-          <div className="cta-actions">
-            <a className="btn btn-primary" href="#">{CTA.primary} →</a>
-            <a className="btn btn-ghost" href="#">{CTA.secondary}</a>
+        <div className="contact-box glass reveal">
+          <div className="contact-glow"/>
+
+          {/* header */}
+          <div className="contact-head">
+            <span className="eyebrow"><span className="dot"/>Contato</span>
+            <h2>Vamos conversar sobre o seu projeto</h2>
+            <p>Preencha o formulário ou entre em contato diretamente — respondemos em até 24h.</p>
+          </div>
+
+          {/* two columns */}
+          <div className="contact-cols">
+
+            {/* info */}
+            <div className="contact-info">
+              <a className="ci-item" href="mailto:ricardohenrique748@gmail.com">
+                <div className="ci-icon ci-icon-blue">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.4"/>
+                    <path d="M2 6l7 5 7-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <div className="ci-body">
+                  <span className="ci-label">E-mail</span>
+                  <span className="ci-value">ricardohenrique748@gmail.com</span>
+                </div>
+              </a>
+
+              <a className="ci-item" href={WA_SISTEMAS} target="_blank" rel="noopener noreferrer">
+                <div className="ci-icon ci-icon-green">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M9 1.5A7.5 7.5 0 0 1 16.5 9c0 4.14-3.36 7.5-7.5 7.5a7.47 7.47 0 0 1-3.84-1.06L1.5 16.5l1.1-3.96A7.47 7.47 0 0 1 1.5 9 7.5 7.5 0 0 1 9 1.5Z" stroke="currentColor" strokeWidth="1.4"/>
+                    <path d="M6.5 7.2c.1.4.4 1.1.9 1.8.6.8 1.3 1.5 2.2 1.9.4.2.9.1 1.2-.2l.3-.4c.2-.2.5-.3.7-.2l1.2.5c.3.1.4.5.3.8-.4 1-1.4 1.6-2.5 1.3-1.7-.4-3.3-2-3.8-3.6-.3-.9.2-2 1.2-2.4.3-.1.6 0 .7.3l.5 1.2c.1.2 0 .5-.2.7l-.3.3c-.2.2-.3.5-.2.8Z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <div className="ci-body">
+                  <span className="ci-label">WhatsApp · Sistemas</span>
+                  <span className="ci-value">Falar sobre sistemas →</span>
+                </div>
+              </a>
+
+              <a className="ci-item" href={WA_DASHBOARDS} target="_blank" rel="noopener noreferrer">
+                <div className="ci-icon ci-icon-green">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M9 1.5A7.5 7.5 0 0 1 16.5 9c0 4.14-3.36 7.5-7.5 7.5a7.47 7.47 0 0 1-3.84-1.06L1.5 16.5l1.1-3.96A7.47 7.47 0 0 1 1.5 9 7.5 7.5 0 0 1 9 1.5Z" stroke="currentColor" strokeWidth="1.4"/>
+                    <path d="M6.5 7.2c.1.4.4 1.1.9 1.8.6.8 1.3 1.5 2.2 1.9.4.2.9.1 1.2-.2l.3-.4c.2-.2.5-.3.7-.2l1.2.5c.3.1.4.5.3.8-.4 1-1.4 1.6-2.5 1.3-1.7-.4-3.3-2-3.8-3.6-.3-.9.2-2 1.2-2.4.3-.1.6 0 .7.3l.5 1.2c.1.2 0 .5-.2.7l-.3.3c-.2.2-.3.5-.2.8Z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <div className="ci-body">
+                  <span className="ci-label">WhatsApp · Dashboards</span>
+                  <span className="ci-value">Falar sobre dashboards →</span>
+                </div>
+              </a>
+
+              <div className="ci-note">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2"/>
+                  <path d="M7 6v4M7 4.5v.5" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round"/>
+                </svg>
+                Retornamos em até 24 horas úteis
+              </div>
+            </div>
+
+            {/* form */}
+            <form className="contact-form" onSubmit={send}>
+              <div className="cf-row">
+                <div className="cf-field">
+                  <label className="cf-label">Nome</label>
+                  <input className="cf-input" type="text" placeholder="Seu nome completo"
+                    value={form.name} onChange={set('name')} required/>
+                </div>
+                <div className="cf-field">
+                  <label className="cf-label">E-mail</label>
+                  <input className="cf-input" type="email" placeholder="seu@email.com"
+                    value={form.email} onChange={set('email')} required/>
+                </div>
+              </div>
+              <div className="cf-field">
+                <label className="cf-label">Mensagem</label>
+                <textarea className="cf-input cf-textarea" placeholder="Conte sobre o seu projeto ou a sua necessidade..."
+                  rows="5" value={form.msg} onChange={set('msg')} required/>
+              </div>
+              <button className={"btn btn-primary cf-submit" + (sent ? " sent" : "")} type="submit">
+                {sent ? "✓ Mensagem preparada" : "Enviar mensagem →"}
+              </button>
+            </form>
+
           </div>
         </div>
       </div>

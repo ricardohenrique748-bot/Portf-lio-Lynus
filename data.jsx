@@ -180,6 +180,13 @@ const SOBRE = {
     name: "Ricardo Henrique",
     role: "Fundador",
     bio: "Profissional com atuação em planejamento de manutenção, PCM, compras, gestão de indicadores e desenvolvimento de sistemas.",
+    photo: "ricardo.jpg",
+  },
+  coFounder: {
+    name: "Walisson Felipe",
+    role: "Co-fundador",
+    bio: "Profissional com atuação em análise de dados, Power BI, SQL, automação de relatórios e inteligência empresarial aplicada a processos corporativos.",
+    initials: "WF",
   },
   values: [
     { icon: "⚡", label: "Velocidade", text: "Operações não podem esperar. Criamos ferramentas que agilizam decisões, reduzem burocracia e aproximam o problema da solução." },
