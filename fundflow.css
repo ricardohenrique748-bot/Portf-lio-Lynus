@@ -1,0 +1,165 @@
+/* ============================================================
+   LYNUS TECH — FundFlow (Finanças pessoais)
+   ============================================================ */
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(160deg, #eef1fc 0%, #e6e9fb 50%, #dfe3f9 100%);
+  color: #1a1b2b;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --fl-accent: #6c5ce0;
+  --fl-accent-2: #8b6cff;
+  --fl-surface: #ffffff;
+  --fl-border: #e7e8f6;
+  --fl-text: #1a1b2b;
+  --fl-text-2: #6b6f8a;
+  --fl-text-3: #9b9eb8;
+  --fl-ok: #1fae6c;
+  --fl-ok-soft: rgba(31,174,108,0.12);
+  --fl-radius: 20px;
+  --fl-shadow: 0 18px 40px -22px rgba(40,30,90,0.16), 0 2px 6px -2px rgba(40,30,90,0.05);
+  --mono: "Geist Mono", "SF Mono", ui-monospace, Menlo, monospace;
+}
+
+.fl-layout { display: grid; grid-template-columns: 68px 1fr; min-height: 100vh; gap: 18px; padding: 18px; }
+
+/* ---- Sidebar ---- */
+.fl-sidebar {
+  background: var(--fl-surface); border-radius: 22px; box-shadow: var(--fl-shadow);
+  display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 0;
+  position: sticky; top: 18px; height: calc(100vh - 36px);
+}
+.fl-brand-mark {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0; margin-bottom: 10px;
+  background: linear-gradient(135deg, var(--fl-accent), var(--fl-accent-2));
+  display: flex; align-items: center; justify-content: center; color: #fff; font-size: 15px;
+}
+.fl-nav-icon {
+  width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  color: var(--fl-text-3); background: transparent; border: none; cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.fl-nav-icon:hover { background: #f4f3ff; color: var(--fl-accent); }
+.fl-nav-icon.active { background: var(--fl-accent); color: #fff; box-shadow: 0 8px 18px -6px rgba(108,92,224,0.5); }
+.fl-nav-bottom { margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+/* ---- Main ---- */
+.fl-main { display: flex; flex-direction: column; gap: 16px; }
+
+.fl-topbar { display: flex; align-items: center; justify-content: space-between; }
+.fl-brand { display: flex; align-items: center; gap: 12px; }
+.fl-brand-icon { width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(135deg, var(--fl-accent), var(--fl-accent-2)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; flex-shrink: 0; }
+.fl-brand-name { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.fl-brand-sub { font-size: 12px; color: var(--fl-text-2); margin-top: 1px; }
+.fl-card-pill {
+  display: flex; align-items: center; gap: 10px; background: var(--fl-surface); border-radius: 100px;
+  padding: 9px 18px; box-shadow: var(--fl-shadow); font-family: var(--mono); font-size: 13px; color: var(--fl-text-2);
+}
+
+/* ---- Body grid ---- */
+.fl-body { display: grid; grid-template-columns: 1.7fr 1fr; gap: 16px; }
+.fl-left { display: flex; flex-direction: column; gap: 16px; }
+.fl-right { display: flex; flex-direction: column; gap: 16px; }
+
+/* ---- Balance card ---- */
+.fl-balance-card {
+  background: var(--fl-surface); border-radius: var(--fl-radius); padding: 20px 22px; box-shadow: var(--fl-shadow);
+}
+.fl-balance-head { display: flex; align-items: center; justify-content: space-between; }
+.fl-balance-label { font-size: 12.5px; color: var(--fl-text-2); }
+.fl-balance-value { font-size: 24px; font-weight: 800; margin-top: 2px; letter-spacing: -0.02em; }
+.fl-curr-toggle { display: flex; gap: 4px; background: #f3f3fb; border-radius: 100px; padding: 3px; }
+.fl-curr-toggle span { font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: 100px; color: var(--fl-text-3); cursor: pointer; }
+.fl-curr-toggle span.active { background: var(--fl-text); color: #fff; }
+
+.fl-circles { display: flex; align-items: center; justify-content: center; gap: -10px; margin: 22px 0 8px; position: relative; }
+.fl-circle {
+  border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #fff; text-align: center; flex-shrink: 0;
+}
+.fl-circle-visa { width: 96px; height: 96px; background: linear-gradient(160deg, #b9c4f5, #8e9cf0); margin-right: -16px; z-index: 1; }
+.fl-circle-main { width: 128px; height: 128px; background: radial-gradient(circle at 35% 30%, #9b8cff, var(--fl-accent) 70%); z-index: 2; box-shadow: 0 16px 32px -12px rgba(108,92,224,0.55); }
+.fl-circle-savings { width: 96px; height: 96px; background: linear-gradient(160deg, #c9d6f7, #9fb3ee); margin-left: -16px; z-index: 1; }
+.fl-circle-value { font-size: 15px; font-weight: 800; }
+.fl-circle-main .fl-circle-value { font-size: 19px; }
+.fl-circle-label { font-size: 10.5px; opacity: 0.85; margin-top: 2px; }
+
+.fl-balance-actions { display: flex; gap: 10px; margin-top: 18px; }
+.fl-btn-light { flex: 1; background: #f3f3fb; border: none; border-radius: 100px; padding: 11px 0; font-size: 12.5px; font-weight: 700; color: var(--fl-text); cursor: pointer; transition: background 0.15s; }
+.fl-btn-light:hover { background: #e9e8fb; }
+.fl-btn-dark { flex: 1; background: var(--fl-text); border: none; border-radius: 100px; padding: 11px 0; font-size: 12.5px; font-weight: 700; color: #fff; cursor: pointer; transition: opacity 0.15s; }
+.fl-btn-dark:hover { opacity: 0.85; }
+
+/* ---- Stats row ---- */
+.fl-stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fl-stat-card { background: var(--fl-surface); border-radius: var(--fl-radius); padding: 18px 20px; box-shadow: var(--fl-shadow); }
+.fl-stat-card.health { background: linear-gradient(150deg, #8b6cff, #6c5ce0); color: #fff; }
+.fl-stat-head { display: flex; align-items: center; justify-content: space-between; }
+.fl-stat-title { font-size: 13px; font-weight: 700; }
+.fl-stat-period { font-size: 11px; color: var(--fl-text-3); background: #f3f3fb; padding: 4px 10px; border-radius: 100px; }
+.fl-stat-card.health .fl-stat-period { background: rgba(255,255,255,0.18); color: #fff; }
+
+.fl-bars-mini { display: flex; align-items: flex-end; gap: 8px; height: 76px; margin-top: 16px; position: relative; }
+.fl-bars-mini .col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; position: relative; }
+.fl-bars-mini .bar { width: 60%; border-radius: 8px; background: #e3e1fb; }
+.fl-bars-mini .bar.active { background: linear-gradient(180deg, var(--fl-accent-2), var(--fl-accent)); }
+.fl-bars-mini .m { font-size: 10px; color: var(--fl-text-3); font-family: var(--mono); }
+.fl-bars-tip { position: absolute; top: -26px; transform: translateX(-50%); background: var(--fl-text); color: #fff; font-size: 10.5px; font-weight: 700; padding: 4px 8px; border-radius: 7px; white-space: nowrap; }
+
+.fl-health-value { font-size: 26px; font-weight: 800; margin-top: 12px; }
+.fl-health-sub { font-size: 11.5px; opacity: 0.85; margin-top: 2px; }
+.fl-health-svg { width: 100%; height: 60px; margin-top: 10px; }
+
+/* ---- Payments table ---- */
+.fl-table-card { background: var(--fl-surface); border-radius: var(--fl-radius); overflow: hidden; box-shadow: var(--fl-shadow); }
+.fl-table-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 10px; }
+.fl-table-title { font-size: 13.5px; font-weight: 700; }
+.fl-btn-mini { background: var(--fl-text); color: #fff; border: none; border-radius: 100px; padding: 6px 14px; font-size: 11.5px; font-weight: 700; cursor: pointer; }
+.fl-pay-row { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-top: 1px solid #f1f2fa; }
+.fl-pay-icon { width: 30px; height: 30px; border-radius: 9px; background: #f3f3fb; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--fl-text-2); }
+.fl-pay-name { font-size: 13px; font-weight: 600; color: var(--fl-text); }
+.fl-pay-date { font-size: 11px; color: var(--fl-text-3); }
+.fl-pay-tag { font-size: 11.5px; color: var(--fl-text-2); margin-left: auto; }
+.fl-pay-value { font-size: 13px; font-weight: 700; color: var(--fl-text); width: 64px; text-align: right; }
+
+/* ---- Transactions (right) ---- */
+.fl-tx-card { background: var(--fl-surface); border-radius: var(--fl-radius); padding: 6px 0 14px; box-shadow: var(--fl-shadow); }
+.fl-tx-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 4px; }
+.fl-tx-sub { font-size: 11.5px; color: var(--fl-text-3); padding: 0 20px 8px; }
+.fl-tx-row { display: flex; align-items: center; gap: 10px; padding: 9px 20px; }
+.fl-tx-icon { width: 28px; height: 28px; border-radius: 50%; background: #f3f3fb; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--fl-text-2); font-size: 12px; }
+.fl-tx-name { font-size: 12.5px; font-weight: 600; color: var(--fl-text); }
+.fl-tx-date { font-size: 10.5px; color: var(--fl-text-3); }
+.fl-tx-status { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 100px; margin-left: auto; }
+.fl-tx-status.pending { background: #e9eefc; color: #3b5bdb; }
+.fl-tx-status.done { background: var(--fl-ok-soft); color: var(--fl-ok); }
+.fl-tx-value { font-size: 12.5px; font-weight: 700; color: var(--fl-text); width: 56px; text-align: right; }
+
+.fl-tip-card { background: var(--fl-surface); border-radius: var(--fl-radius); padding: 18px 20px; box-shadow: var(--fl-shadow); }
+.fl-tip-title { font-size: 13px; font-weight: 700; }
+.fl-tip-text { font-size: 12px; color: var(--fl-text-2); margin-top: 6px; line-height: 1.5; }
+.fl-tip-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--fl-accent); font-weight: 600; margin-top: 8px; cursor: pointer; }
+
+.fl-transfer-card { background: var(--fl-surface); border-radius: var(--fl-radius); padding: 18px 20px; box-shadow: var(--fl-shadow); }
+.fl-transfer-head { display: flex; align-items: center; justify-content: space-between; }
+.fl-transfer-link { font-size: 11.5px; color: var(--fl-text-3); }
+.fl-contacts { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.fl-contact-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.fl-contact-add { width: 38px; height: 38px; border-radius: 50%; border: 1.5px dashed var(--fl-border); display: flex; align-items: center; justify-content: center; color: var(--fl-text-3); font-size: 16px; flex-shrink: 0; cursor: pointer; }
+.fl-amount-row { display: flex; align-items: center; gap: 10px; margin-top: 16px; }
+.fl-amount-input { flex: 1; border: 1px solid var(--fl-border); border-radius: 100px; padding: 11px 16px; font-size: 14px; font-weight: 700; color: var(--fl-text); background: #fafafe; }
+.fl-send-btn { background: var(--fl-text); color: #fff; border: none; border-radius: 100px; padding: 11px 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; }
+.fl-send-btn:hover { opacity: 0.85; }
+
+@media (max-width: 1200px) {
+  .fl-body { grid-template-columns: 1fr; }
+  .fl-stats-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .fl-layout { grid-template-columns: 1fr; }
+  .fl-sidebar { display: none; }
+}

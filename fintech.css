@@ -1,0 +1,162 @@
+/* ============================================================
+   LYNUS TECH — Fintech (Cartões & Antifraude)
+   ============================================================ */
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(255,205,210,0.45), transparent 40%),
+    radial-gradient(circle at 92% 8%, rgba(190,210,255,0.45), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(210,235,220,0.4), transparent 45%),
+    #eef0f7;
+  color: #181924;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --ft-accent: #5b4ee8;
+  --ft-accent-2: #8b6cff;
+  --ft-teal: #14b8a6;
+  --ft-surface: #ffffff;
+  --ft-border: #eaeaf4;
+  --ft-text: #181924;
+  --ft-text-2: #6b6f8a;
+  --ft-text-3: #9b9eb8;
+  --ft-ok: #1fae6c;
+  --ft-ok-soft: rgba(31,174,108,0.12);
+  --ft-crit: #ef4d5e;
+  --ft-crit-soft: rgba(239,77,94,0.12);
+  --ft-warn: #f5a623;
+  --ft-radius: 20px;
+  --ft-shadow: 0 18px 40px -22px rgba(40,30,90,0.16), 0 2px 6px -2px rgba(40,30,90,0.05);
+  --mono: "Geist Mono", "SF Mono", ui-monospace, Menlo, monospace;
+}
+
+.ft-layout { display: block; min-height: 100vh; padding: 24px 28px 36px; max-width: 1320px; margin: 0 auto; }
+
+/* ---- Main ---- */
+.ft-main { display: flex; flex-direction: column; gap: 18px; }
+
+.ft-topbar { display: flex; align-items: flex-start; justify-content: space-between; }
+.ft-topbar-left { display: flex; flex-direction: column; gap: 3px; }
+.ft-topbar-left h1 { font-size: 21px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+.ft-report-sub { font-size: 12px; color: var(--ft-text-3); font-family: var(--mono); }
+.ft-topbar-right { display: flex; align-items: center; gap: 10px; }
+.ft-btn-ghost {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #fff; border: 1px solid var(--ft-border); border-radius: 100px;
+  padding: 9px 16px; font-size: 12.5px; font-weight: 600; color: var(--ft-text-2); cursor: pointer;
+  box-shadow: var(--ft-shadow); transition: transform 0.15s, box-shadow 0.15s;
+}
+.ft-btn-ghost:hover { transform: translateY(-1px); box-shadow: 0 20px 36px -18px rgba(40,30,90,0.28); color: var(--ft-text); }
+
+.ft-filters { display: flex; align-items: center; gap: 8px; }
+.ft-chip {
+  font-size: 12px; font-weight: 600; color: var(--ft-text-2);
+  background: #fff; border: 1px solid var(--ft-border);
+  border-radius: 100px; padding: 7px 14px; cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.ft-chip:hover { border-color: var(--ft-accent); color: var(--ft-accent); }
+
+/* ---- KPI row ---- */
+.ft-kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.ft-kpi-card { background: var(--ft-surface); border-radius: var(--ft-radius); padding: 16px 18px; box-shadow: var(--ft-shadow); transition: transform 0.18s, box-shadow 0.18s; }
+.ft-kpi-card:hover { transform: translateY(-2px); box-shadow: 0 24px 44px -20px rgba(40,30,90,0.24); }
+.ft-kpi-card.highlight { background: linear-gradient(150deg, #20254a, #383f72); color: #fff; box-shadow: 0 22px 44px -18px rgba(32,37,74,0.55); }
+.ft-kpi-top { display: flex; align-items: center; justify-content: space-between; }
+.ft-kpi-tag { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 100px; }
+.ft-kpi-tag.teal { background: var(--ft-teal); color: #fff; }
+.ft-kpi-tag.crit { background: var(--ft-crit-soft); color: var(--ft-crit); }
+.ft-kpi-tag.muted { background: #f1f1fa; color: var(--ft-text-3); }
+.ft-kpi-status { font-size: 10.5px; color: var(--ft-text-3); font-family: var(--mono); }
+.ft-kpi-card.highlight .ft-kpi-status { color: rgba(255,255,255,0.55); }
+.ft-kpi-value { font-size: 24px; font-weight: 800; margin-top: 14px; letter-spacing: -0.02em; }
+.ft-kpi-delta { font-size: 11.5px; margin-top: 6px; color: var(--ft-text-3); font-family: var(--mono); }
+.ft-kpi-delta.up { color: var(--ft-ok); }
+
+/* ---- Body grid (left content + right column) ---- */
+.ft-body-grid { display: grid; grid-template-columns: 1fr 280px; gap: 16px; align-items: start; }
+.ft-left-col { display: flex; flex-direction: column; gap: 16px; }
+
+/* ---- Middle grid ---- */
+.ft-mid-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 16px; align-items: stretch; }
+
+/* Card mockup */
+.ft-cardbox { background: var(--ft-surface); border-radius: var(--ft-radius); padding: 18px; box-shadow: var(--ft-shadow); display: flex; flex-direction: column; align-items: center; }
+.ft-card-mock {
+  width: 100%; aspect-ratio: 16/10; border-radius: 16px; position: relative; overflow: hidden;
+  background: linear-gradient(120deg, #ffd9e8, #d9e4ff 35%, #d4fff0 65%, #fff0d9);
+  box-shadow: 0 16px 30px -14px rgba(40,30,90,0.35);
+  padding: 16px; display: flex; flex-direction: column; justify-content: space-between;
+}
+.ft-card-mock::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.5), transparent 40%, rgba(255,255,255,0.3) 70%, transparent);
+  mix-blend-mode: overlay;
+}
+.ft-chip { width: 32px; height: 24px; border-radius: 5px; background: linear-gradient(135deg,#e7c873,#fff3d0); position: relative; z-index: 1; }
+.ft-card-number { font-family: var(--mono); font-size: 15px; font-weight: 600; color: #2a2a35; letter-spacing: 0.05em; position: relative; z-index: 1; }
+.ft-card-foot { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
+.ft-card-status { font-size: 11px; color: #4a4a58; font-weight: 600; }
+.ft-card-actions { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 14px; }
+.ft-freeze-btn { background: var(--ft-accent); color: #fff; border: none; border-radius: 100px; padding: 8px 18px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; }
+.ft-freeze-btn:hover { opacity: 0.85; }
+
+/* Line chart */
+.ft-chart-box { background: var(--ft-surface); border-radius: var(--ft-radius); padding: 18px 20px; box-shadow: var(--ft-shadow); display: flex; flex-direction: column; }
+.ft-chart-legend { display: flex; gap: 10px; margin-bottom: 8px; }
+.ft-chart-legend span { font-size: 11px; padding: 4px 10px; border-radius: 100px; font-weight: 600; }
+.ft-chart-legend .domain { background: #e6f7f5; color: var(--ft-teal); }
+.ft-chart-legend .domains { background: #f1f1fa; color: var(--ft-text-3); }
+.ft-line-svg { width: 100%; height: 160px; }
+.ft-chart-foot { font-size: 11px; color: var(--ft-text-3); font-family: var(--mono); margin-top: 4px; }
+
+/* ---- Fraud actions table ---- */
+.ft-table-card { background: var(--ft-surface); border-radius: var(--ft-radius); overflow: hidden; box-shadow: var(--ft-shadow); }
+.ft-table-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 12px; }
+.ft-table-title { font-size: 14px; font-weight: 700; }
+.ft-pill-toggle { display: flex; gap: 6px; }
+.ft-pill-toggle span { font-size: 11.5px; padding: 5px 12px; border-radius: 100px; font-weight: 600; color: var(--ft-text-3); cursor: pointer; }
+.ft-pill-toggle span.active { background: var(--ft-ok); color: #fff; }
+.ft-table { width: 100%; border-collapse: collapse; }
+.ft-table th { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ft-text-3); text-align: left; padding: 10px 20px; background: #f8f8fc; border-bottom: 1px solid var(--ft-border); font-family: var(--mono); }
+.ft-table td { padding: 12px 20px; font-size: 13px; color: var(--ft-text-2); border-bottom: 1px solid #f1f2fa; }
+.ft-table tbody tr:last-child td { border-bottom: none; }
+.ft-table tbody tr:hover td { background: #f7f6ff; }
+.ft-row-dot { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--ft-text); }
+.ft-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ---- Right column ---- */
+.ft-right { display: flex; flex-direction: column; gap: 16px; }
+.ft-rewards-card { background: var(--ft-surface); border-radius: var(--ft-radius); padding: 18px; box-shadow: var(--ft-shadow); }
+.ft-rewards-top { display: flex; align-items: center; justify-content: space-between; }
+.ft-rewards-icon { width: 30px; height: 30px; border-radius: 9px; background: #fdecec; color: var(--ft-crit); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.ft-rewards-pts { font-size: 24px; font-weight: 800; margin-top: 14px; }
+.ft-rewards-label { font-size: 12px; color: var(--ft-text-3); margin-top: 2px; }
+.ft-budget-row { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+.ft-budget-label { font-size: 12px; color: var(--ft-text-2); }
+.ft-budget-sub { font-size: 10.5px; color: var(--ft-text-3); margin-top: 2px; }
+.ft-reveal-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ft-accent); font-weight: 600; margin-top: 14px; cursor: pointer; }
+
+.ft-audit-card { background: var(--ft-surface); border-radius: var(--ft-radius); padding: 18px; box-shadow: var(--ft-shadow); }
+.ft-audit-title { font-size: 13px; font-weight: 700; }
+.ft-audit-sub { font-size: 11px; color: var(--ft-text-3); margin-top: 2px; }
+.ft-audit-person { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.ft-audit-name { font-size: 12.5px; font-weight: 600; }
+.ft-audit-time { font-size: 10.5px; color: var(--ft-text-3); margin-left: auto; font-family: var(--mono); }
+.ft-audit-actions { display: flex; gap: 8px; margin-top: 16px; }
+.ft-audit-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: 1; border-radius: 100px; padding: 8px 0; font-size: 12px; font-weight: 700; cursor: pointer; border: none; transition: opacity 0.15s; }
+.ft-audit-actions button:hover { opacity: 0.85; }
+.ft-audit-copy { background: #f1f1fa; color: var(--ft-text-2); }
+.ft-audit-export { background: var(--ft-accent); color: #fff; }
+
+@media (max-width: 1200px) {
+  .ft-kpi-row { grid-template-columns: 1fr 1fr; }
+  .ft-mid-grid { grid-template-columns: 1fr; }
+  .ft-body-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .ft-kpi-row { grid-template-columns: 1fr; }
+}

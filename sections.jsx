@@ -352,7 +352,6 @@ function Features() {
 }
 
 function Dashboards() {
-  const { SISTEMAS } = window.LYNUS;
   return (
     <section className="section dash-section" id="plataforma">
       <div className="wrap">
@@ -362,26 +361,62 @@ function Dashboards() {
           <p>Painéis interativos com dados ao vivo para cada área da sua empresa. Tome decisões baseadas em informação real, não em suposições.</p>
         </div>
         <div className="dash-grid">
-          {SISTEMAS.map(s => (
-            <a key={s.id} href={s.href} className="dash-card glass reveal" style={{'--card-accent': s.accent}}>
-              <div className="dash-preview">
-                <MockScreen type={s.preview} accent={s.accent}/>
+          <a href="faturamento.html" className="dash-card glass reveal" style={{'--card-accent': '#8b6cff'}}>
+            <div className="dash-preview">
+              <MockScreen type="billing" accent="#8b6cff"/>
+            </div>
+            <div className="dash-info">
+              <span className="dash-icon">🧾</span>
+              <div>
+                <h3 className="dash-title">Faturamento &amp; Cobranças</h3>
+                <p className="dash-desc">Contas a pagar, faturas emitidas e histórico de cobranças em um único painel, com indicadores de inadimplência e fluxo de caixa.</p>
               </div>
-              <div className="dash-info">
-                <span className="dash-icon">{s.icon}</span>
-                <div>
-                  <h3 className="dash-title">{s.title}</h3>
-                  <p className="dash-desc">{s.desc}</p>
-                </div>
+            </div>
+            <div className="dash-tags">
+              {['Faturas', 'Cobranças', 'Fluxo de Caixa'].map(t => <span key={t} className="dash-tag">{t}</span>)}
+            </div>
+            <div className="dash-footer">
+              <span className="dash-link">Abrir dashboard <span>→</span></span>
+            </div>
+          </a>
+
+          <a href="fintech.html" className="dash-card glass reveal" style={{'--card-accent': '#5b4ee8'}}>
+            <div className="dash-preview">
+              <MockScreen type="fintech" accent="#5b4ee8"/>
+            </div>
+            <div className="dash-info">
+              <span className="dash-icon">💳</span>
+              <div>
+                <h3 className="dash-title">Fintech &amp; Antifraude</h3>
+                <p className="dash-desc">Gestão de cartões, limites e ações antifraude com recompensas e trilha de auditoria em tempo real.</p>
               </div>
-              <div className="dash-tags">
-                {s.tags.map(t => <span key={t} className="dash-tag">{t}</span>)}
+            </div>
+            <div className="dash-tags">
+              {['Cartões', 'Antifraude', 'Auditoria'].map(t => <span key={t} className="dash-tag">{t}</span>)}
+            </div>
+            <div className="dash-footer">
+              <span className="dash-link">Abrir dashboard <span>→</span></span>
+            </div>
+          </a>
+
+          <a href="fundflow.html" className="dash-card glass reveal" style={{'--card-accent': '#6c5ce0'}}>
+            <div className="dash-preview">
+              <MockScreen type="fundflow" accent="#6c5ce0"/>
+            </div>
+            <div className="dash-info">
+              <span className="dash-icon">💰</span>
+              <div>
+                <h3 className="dash-title">FundFlow</h3>
+                <p className="dash-desc">Visão completa das finanças pessoais: saldo, cartões, despesas, saúde financeira e transferências rápidas.</p>
               </div>
-              <div className="dash-footer">
-                <span className="dash-link">Abrir dashboard <span>→</span></span>
-              </div>
-            </a>
-          ))}
+            </div>
+            <div className="dash-tags">
+              {['Saldo', 'Despesas', 'Transferências'].map(t => <span key={t} className="dash-tag">{t}</span>)}
+            </div>
+            <div className="dash-footer">
+              <span className="dash-link">Abrir dashboard <span>→</span></span>
+            </div>
+          </a>
         </div>
       </div>
     </section>
@@ -760,6 +795,56 @@ function MockScreen({ type, accent: a }) {
                   </div>
                 ))}
               </div>
+            </div>
+            {tableRows(3,a)}
+          </>}
+
+          {type==='billing'&&<>
+            {row([{hi:true,c:a},{c:'rgba(52,224,161,.55)',w:'70%'},{c:'#ff5c6c',w:'40%'},{c:t3,w:'55%'}])}
+            <div style={{flex:1,display:'flex',gap:'5px',overflow:'hidden'}}>
+              <div style={{width:'30%',background:`${a}14`,border:`1px solid ${a}30`,borderRadius:'6px',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                <div style={{position:'relative',width:'42px',height:'42px',flexShrink:0}}>
+                  <div style={{position:'absolute',inset:0,borderRadius:'50%',background:`conic-gradient(${a} 0% 45%, ${a}25 45% 100%)`}}/>
+                  <div style={{position:'absolute',inset:'8px',borderRadius:'50%',background:'#0C0D13',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                    <span style={{fontSize:'7px',fontWeight:700,color:a}}>45%</span>
+                  </div>
+                </div>
+              </div>
+              <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'6px 8px',display:'flex',alignItems:'flex-end',gap:'3px',overflow:'hidden'}}>
+                {[55,72,48,80,65,90,76,60].map((h,i)=>(
+                  <div key={i} style={{flex:1,height:`${h*0.78}%`,background:i===5?a:`${a}30`,borderRadius:'2px 2px 0 0'}}/>
+                ))}
+              </div>
+            </div>
+            <div style={{background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'5px 8px',display:'flex',alignItems:'center',gap:'6px'}}>
+              <div style={{width:'12px',height:'12px',borderRadius:'50%',background:`${a}40`,flexShrink:0}}/>
+              <div style={{flex:1,height:'4px',background:t3,borderRadius:'2px'}}/>
+              <div style={{width:'20%',height:'9px',background:'rgba(52,224,161,.22)',borderRadius:'6px'}}/>
+            </div>
+          </>}
+
+          {type==='fintech'&&<>
+            {row([{hi:true,c:a,w:'80%'},{c:t3,w:'60%'},{c:'#ff5c6c',w:'45%'}])}
+            <div style={{flex:1,display:'flex',gap:'5px',overflow:'hidden'}}>
+              <div style={{width:'38%',borderRadius:'7px',background:'linear-gradient(120deg,#5b4ee855,#14b8a655,#f5a62355)',padding:'6px',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+                <div style={{width:'14px',height:'10px',borderRadius:'2px',background:'rgba(255,255,255,.6)'}}/>
+                <div style={{height:'4px',background:'rgba(255,255,255,.7)',borderRadius:'2px',width:'80%'}}/>
+              </div>
+              <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'6px 8px',display:'flex',alignItems:'center',overflow:'hidden'}}>
+                <svg viewBox="0 0 100 40" width="100%" height="100%" preserveAspectRatio="none">
+                  <polyline points="0,30 15,20 30,26 45,8 60,18 75,4 90,14 100,2" fill="none" stroke={a} strokeWidth="2.5"/>
+                </svg>
+              </div>
+            </div>
+            {tableRows(3,a)}
+          </>}
+
+          {type==='fundflow'&&<>
+            {row([{hi:true,c:a},{c:t3,w:'55%'},{c:'#34e0a1',w:'70%'}])}
+            <div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',gap:'-4px',overflow:'hidden'}}>
+              <div style={{width:'30px',height:'30px',borderRadius:'50%',background:`${a}33`,marginRight:'-8px'}}/>
+              <div style={{width:'40px',height:'40px',borderRadius:'50%',background:a,zIndex:1,boxShadow:`0 0 12px ${a}66`}}/>
+              <div style={{width:'30px',height:'30px',borderRadius:'50%',background:`${a}33`,marginLeft:'-8px'}}/>
             </div>
             {tableRows(3,a)}
           </>}
