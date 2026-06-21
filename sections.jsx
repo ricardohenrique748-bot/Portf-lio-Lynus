@@ -571,7 +571,7 @@ function CTASection() {
     if (!form.name || !form.email || !form.msg) return;
     const sub  = encodeURIComponent(`Contato via site – ${form.name}`);
     const body = encodeURIComponent(`Nome: ${form.name}\nE-mail: ${form.email}\n\nMensagem:\n${form.msg}`);
-    window.open(`mailto:ricardohenrique748@gmail.com?subject=${sub}&body=${body}`);
+    window.open(`mailto:comercial@lynustech.com.br?subject=${sub}&body=${body}`);
     setSent(true);
     setTimeout(() => setSent(false), 4000);
   };
@@ -596,7 +596,7 @@ function CTASection() {
 
             {/* info */}
             <div className="contact-info">
-              <a className="ci-item" href="mailto:ricardohenrique748@gmail.com">
+              <a className="ci-item" href="mailto:comercial@lynustech.com.br">
                 <div className="ci-icon ci-icon-blue">
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                     <rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.4"/>
@@ -605,7 +605,7 @@ function CTASection() {
                 </div>
                 <div className="ci-body">
                   <span className="ci-label">E-mail</span>
-                  <span className="ci-value">ricardohenrique748@gmail.com</span>
+                  <span className="ci-value">comercial@lynustech.com.br</span>
                 </div>
               </a>
 
