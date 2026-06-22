@@ -229,11 +229,20 @@ function Icon({ name }) {
 function Nav() {
   const { NAV } = window.LYNUS;
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState(undefined);
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", f, { passive: true });
     return () => window.removeEventListener("scroll", f);
   }, []);
+  useEffect(() => {
+    window.supabaseClient.auth.getSession().then(({ data }) => setUser(data.session?.user ?? null));
+    const { data: sub } = window.supabaseClient.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+  const logout = async () => { await window.supabaseClient.auth.signOut(); };
   return (
     <nav className={"nav" + (scrolled ? " nav-scrolled" : "")}>
       <div className="wrap nav-inner">
@@ -242,7 +251,11 @@ function Nav() {
           {NAV.links.map((l) => <a key={l.label} href={l.href}>{l.label}</a>)}
         </div>
         <div className="nav-actions">
-          <a className="nav-signin" href="login.html">{NAV.signin}</a>
+          {user ? (
+            <button className="nav-signin" onClick={logout}>Sair ({user.email})</button>
+          ) : (
+            <a className="nav-signin" href="login.html">{NAV.signin}</a>
+          )}
           <a className="btn btn-primary btn-sm" href="#cta">{NAV.cta}</a>
         </div>
       </div>
@@ -565,13 +578,41 @@ function Sobre() {
 function CTASection() {
   const [form, setForm] = React.useState({ name: '', email: '', msg: '' });
   const [sent, setSent] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+  const [error, setError] = React.useState('');
+  const [user, setUser] = React.useState(undefined); // undefined = loading, null = logged out
+
+  React.useEffect(() => {
+    window.supabaseClient.auth.getSession().then(({ data }) => setUser(data.session?.user ?? null));
+    const { data: sub } = window.supabaseClient.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  React.useEffect(() => {
+    if (user) setForm(p => ({ ...p, email: user.email }));
+  }, [user]);
+
   const set = k => e => setForm(p => ({...p, [k]: e.target.value}));
-  const send = e => {
+  const send = async e => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.msg) return;
-    const sub  = encodeURIComponent(`Contato via site – ${form.name}`);
-    const body = encodeURIComponent(`Nome: ${form.name}\nE-mail: ${form.email}\n\nMensagem:\n${form.msg}`);
-    window.open(`mailto:comercial@lynustech.com.br?subject=${sub}&body=${body}`);
+    if (!user || !form.name || !form.email || !form.msg) return;
+    setSending(true);
+    setError('');
+
+    const { error: dbError } = await window.supabaseClient
+      .from('contatos')
+      .insert([{ user_id: user.id, name: form.name, email: form.email, message: form.msg }]);
+
+    setSending(false);
+
+    if (dbError) {
+      setError('Não foi possível enviar agora. Tente novamente em instantes.');
+      return;
+    }
+
+    setForm(p => ({ ...p, name: '', msg: '' }));
     setSent(true);
     setTimeout(() => setSent(false), 4000);
   };
@@ -645,28 +686,43 @@ function CTASection() {
             </div>
 
             {/* form */}
-            <form className="contact-form" onSubmit={send}>
-              <div className="cf-row">
-                <div className="cf-field">
-                  <label className="cf-label">Nome</label>
-                  <input className="cf-input" type="text" placeholder="Seu nome completo"
-                    value={form.name} onChange={set('name')} required/>
+            {!user ? (
+              <div className="contact-form cf-locked">
+                <p className="cf-locked-text">
+                  {user === undefined
+                    ? "Carregando..."
+                    : "Você precisa estar logado para enviar uma mensagem."}
+                </p>
+                {user === null && (
+                  <a className="btn btn-primary cf-submit" href="login.html">Entrar ou criar conta →</a>
+                )}
+              </div>
+            ) : (
+              <form className="contact-form" onSubmit={send}>
+                <div className="cf-row">
+                  <div className="cf-field">
+                    <label className="cf-label">Nome</label>
+                    <input className="cf-input" type="text" placeholder="Seu nome completo"
+                      value={form.name} onChange={set('name')} required/>
+                  </div>
+                  <div className="cf-field">
+                    <label className="cf-label">E-mail</label>
+                    <input className="cf-input" type="email" placeholder="seu@email.com"
+                      value={form.email} onChange={set('email')} required/>
+                  </div>
                 </div>
                 <div className="cf-field">
-                  <label className="cf-label">E-mail</label>
-                  <input className="cf-input" type="email" placeholder="seu@email.com"
-                    value={form.email} onChange={set('email')} required/>
+                  <label className="cf-label">Mensagem</label>
+                  <textarea className="cf-input cf-textarea" placeholder="Conte sobre o seu projeto ou a sua necessidade..."
+                    rows="5" value={form.msg} onChange={set('msg')} required/>
                 </div>
-              </div>
-              <div className="cf-field">
-                <label className="cf-label">Mensagem</label>
-                <textarea className="cf-input cf-textarea" placeholder="Conte sobre o seu projeto ou a sua necessidade..."
-                  rows="5" value={form.msg} onChange={set('msg')} required/>
-              </div>
-              <button className={"btn btn-primary cf-submit" + (sent ? " sent" : "")} type="submit">
-                {sent ? "✓ Mensagem preparada" : "Enviar mensagem →"}
-              </button>
-            </form>
+                {error && <p className="cf-error">{error}</p>}
+
+                <button className={"btn btn-primary cf-submit" + (sent ? " sent" : "")} type="submit" disabled={sending}>
+                  {sent ? "✓ Mensagem enviada" : sending ? "Enviando..." : "Enviar mensagem →"}
+                </button>
+              </form>
+            )}
 
           </div>
         </div>

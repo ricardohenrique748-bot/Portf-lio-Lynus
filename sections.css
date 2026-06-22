@@ -80,7 +80,7 @@
 }
 .nav-links a:hover { color: var(--text); background: var(--surface-2); }
 .nav-actions { display: flex; align-items: center; gap: 14px; }
-.nav-signin { font-size: 14px; color: var(--text-2); text-decoration: none; font-weight: 500; transition: color 0.18s; }
+.nav-signin { font-size: 14px; color: var(--text-2); text-decoration: none; font-weight: 500; transition: color 0.18s; background: none; border: none; cursor: pointer; font-family: inherit; }
 .nav-signin:hover { color: var(--text); }
 
 /* ---------- MACBOOK MOCKUP ---------- */
@@ -641,6 +641,9 @@
 .cf-textarea { resize: vertical; min-height: 120px; }
 .cf-submit { width: 100%; justify-content: center; margin-top: 4px; }
 .cf-submit.sent { background: rgba(52,224,161,0.18); border-color: rgba(52,224,161,0.4); color: #34e0a1; }
+.cf-error { color: #ff6b6b; font-size: 0.85rem; margin: -4px 0 0; }
+.cf-locked { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 40px 20px; }
+.cf-locked-text { color: var(--text-2); }
 
 /* ---------- FOOTER ---------- */
 .footer { border-top: 1px solid var(--border); padding: 60px 0 30px; position: relative; z-index: 1; background: var(--bg-2); }

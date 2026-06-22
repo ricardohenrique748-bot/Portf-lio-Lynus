@@ -190,9 +190,26 @@ function AuthCard() {
     e.preventDefault();
     if (tab === 'cadastro' && senha !== conf) { setMsg({ type:'err', text:'As senhas não coincidem.' }); return; }
     setLoad(true); setMsg(null);
-    await new Promise(r => setTimeout(r, 1200));
-    setLoad(false);
-    setMsg({ type:'ok', text: tab === 'login' ? 'Bem-vindo de volta!' : 'Conta criada com sucesso!' });
+
+    if (tab === 'login') {
+      const { error } = await window.supabaseClient.auth.signInWithPassword({ email, password: senha });
+      setLoad(false);
+      if (error) { setMsg({ type:'err', text: 'E-mail ou senha inválidos.' }); return; }
+      setMsg({ type:'ok', text: 'Bem-vindo de volta! Redirecionando...' });
+      setTimeout(() => { window.location.href = 'index.html'; }, 900);
+    } else {
+      const { data, error } = await window.supabaseClient.auth.signUp({
+        email, password: senha, options: { data: { full_name: nome } }
+      });
+      setLoad(false);
+      if (error) { setMsg({ type:'err', text: error.message }); return; }
+      if (data.session) {
+        setMsg({ type:'ok', text: 'Conta criada com sucesso! Redirecionando...' });
+        setTimeout(() => { window.location.href = 'index.html'; }, 900);
+      } else {
+        setMsg({ type:'ok', text: 'Conta criada! Verifique seu e-mail para confirmar antes de entrar.' });
+      }
+    }
   };
 
   const switchTab = t => { setTab(t); setMsg(null); };
