@@ -722,7 +722,6 @@ function CTASection() {
           <div className="contact-head">
             <span className="eyebrow"><span className="dot"/>Contato</span>
             <h2>Vamos conversar sobre o seu projeto</h2>
-            <p>Preencha o formulário ou entre em contato diretamente — respondemos em até 24h.</p>
           </div>
 
           {/* two columns */}
