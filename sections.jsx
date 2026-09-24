@@ -222,6 +222,10 @@ function Icon({ name }) {
     plug: <g {...p}><path d="M12 3v6M9 9h6M8 9v3a4 4 0 0 0 8 0V9M12 16v5" /></g>,
     bolt: <path {...p} d="M13 3 5 13h6l-1 8 8-10h-6z" />,
     shield: <path {...p} d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z" />,
+    deploy: <g {...p}><rect x="2" y="3" width="14" height="10" rx="1.4" /><path d="M6 17h6M9 13v4" /><path d="M15 11l4-3-4-3M19 8h-6" /></g>,
+    cloud: <g {...p}><path d="M7 17a4 4 0 0 1-.4-8 5 5 0 0 1 9.6-1.6A3.6 3.6 0 0 1 16 15.8" /><path d="M7 17h9" /></g>,
+    discount: <g {...p}><circle cx="12" cy="12" r="9" /><circle cx="9" cy="9" r="1.4" fill="currentColor" stroke="none" /><circle cx="15" cy="15" r="1.4" fill="currentColor" stroke="none" /><path d="M9 15l6-6" /></g>,
+    headset: <g {...p}><path d="M4 13v-1a8 8 0 0 1 16 0v1" /><rect x="2.5" y="12" width="4" height="6" rx="1.5" /><rect x="17.5" y="12" width="4" height="6" rx="1.5" /><path d="M20 18.5v.5a3 3 0 0 1-3 3h-3" /></g>,
   };
   return <svg className="ic" viewBox="0 0 24 24" width="22" height="22">{paths[name]}</svg>;
 }
@@ -229,20 +233,11 @@ function Icon({ name }) {
 function Nav() {
   const { NAV } = window.LYNUS;
   const [scrolled, setScrolled] = useState(false);
-  const [user, setUser] = useState(undefined);
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", f, { passive: true });
     return () => window.removeEventListener("scroll", f);
   }, []);
-  useEffect(() => {
-    window.supabaseClient.auth.getSession().then(({ data }) => setUser(data.session?.user ?? null));
-    const { data: sub } = window.supabaseClient.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => sub.subscription.unsubscribe();
-  }, []);
-  const logout = async () => { await window.supabaseClient.auth.signOut(); };
   return (
     <nav className={"nav" + (scrolled ? " nav-scrolled" : "")}>
       <div className="wrap nav-inner">
@@ -251,58 +246,195 @@ function Nav() {
           {NAV.links.map((l) => <a key={l.label} href={l.href}>{l.label}</a>)}
         </div>
         <div className="nav-actions">
-          {user ? (
-            <button className="nav-signin" onClick={logout}>Sair ({user.email})</button>
-          ) : (
-            <a className="nav-signin" href="login.html">{NAV.signin}</a>
-          )}
-          <a className="btn btn-primary btn-sm" href="#cta">{NAV.cta}</a>
+          <a className="btn btn-primary btn-sm" href="https://wa.me/5599991754232" target="_blank" rel="noopener noreferrer">{NAV.cta}</a>
         </div>
       </div>
     </nav>
   );
 }
 
-function MacbookMockup() {
+function FluidFlowGridCanvas() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha: false });
+    if (!ctx) return;
+
+    let animationFrameId;
+    let width = 0;
+    let height = 0;
+    const mouse = { x: -1000, y: -1000, targetX: -1000, targetY: -1000 };
+
+    const handleResize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
+      height = canvas.parentElement ? canvas.parentElement.clientHeight : 580;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.scale(dpr, dpr);
+    };
+
+    const handleMouseMove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.targetX = e.clientX - rect.left;
+      mouse.targetY = e.clientY - rect.top;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.targetX = -1000;
+      mouse.targetY = -1000;
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
+
+    let time = 0;
+    const render = () => {
+      time += 0.009;
+      mouse.x += (mouse.targetX - mouse.x) * 0.08;
+      mouse.y += (mouse.targetY - mouse.y) * 0.08;
+
+      const bgColor = '#080d1a';
+      const lineBaseColor = '59, 130, 246';
+      const accentBlue = '147, 197, 253';
+
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, width, height);
+
+      const spacing = 34;
+      const cols = Math.ceil(width / spacing) + 1;
+      const rows = Math.ceil(height / spacing) + 1;
+      ctx.lineWidth = 1.25;
+
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          const x = i * spacing;
+          const y = j * spacing;
+          let angle = Math.sin(x * 0.003 + time) + Math.cos(y * 0.003 + time);
+          const dx = mouse.x - x;
+          const dy = mouse.y - y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          let isNear = false;
+          if (dist < 230 && dist > 0) {
+            isNear = true;
+            const pushAngle = Math.atan2(dy, dx) + Math.PI;
+            const force = (1 - dist / 230);
+            angle = angle * (1 - force) + pushAngle * force;
+          }
+
+          const lineLen = isNear ? 24 : 14;
+          const x2 = x + Math.cos(angle) * lineLen;
+          const y2 = y + Math.sin(angle) * lineLen;
+          const alpha = isNear ? 0.85 : (0.16 + Math.sin(x * 0.01 + y * 0.01 + time) * 0.11);
+
+          ctx.strokeStyle = isNear ? `rgba(${accentBlue}, ${alpha})` : `rgba(${lineBaseColor}, ${alpha})`;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', handleResize);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
   return (
-    <div className="mb-wrap">
-      <div className="mb-ambient"/>
-      {/* screen lid */}
-      <div className="mb-lid">
-        <div className="mb-lid-bar">
-          <div className="mb-notch"/>
-        </div>
-        <div className="mb-display">
-          <LynusDashboard density="command" />
-        </div>
-        <div className="mb-shine"/>
-        <div className="mb-lid-edge"/>
+    <div className="hero-fluid-card">
+      <canvas ref={canvasRef} className="hero-fluid-canvas" />
+      <div className="hero-fluid-overlay">
+        <span className="hero-fluid-tag">⚡ VETOR DE FLUXO EM TEMPO REAL</span>
+        <h3 className="hero-fluid-title">DYNAMIC FLOW STREAM</h3>
+        <p className="hero-fluid-desc">
+          Malha vetorial trigonométrica com campo de repulsão por física fluida para visualização de tráfego e telemetria de redes.
+        </p>
       </div>
-      {/* hinge line */}
-      <div className="mb-hinge"/>
-      {/* base / keyboard */}
-      <div className="mb-base">
-        <div className="mb-keyboard"/>
-        <div className="mb-trackpad"/>
+    </div>
+  );
+}
+
+function HeroAIStream() {
+  const [count, setCount] = useState(0);
+  const TOKENS = [
+    ..."Detecção autônoma: Cluster de pagamentos apresentou pico anômalo de 23% na latência e auto-recuperação iniciada em 180ms."
+      .split(" ")
+      .map(text => ({ text })),
+    { text: "", cite: true },
+    ..."Infraestrutura operando em redundância com 99.98% de estabilidade confirmada."
+      .split(" ")
+      .map(text => ({ text }))
+  ];
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setCount(c => (c >= TOKENS.length ? 0 : c + 1));
+    }, count >= TOKENS.length ? 4000 : 75);
+    return () => clearTimeout(t);
+  }, [count]);
+
+  return (
+    <div className="hero-ai-card">
+      <div style={{ maxWidth: '640px', width: '100%', textAlign: 'left' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+          <span className="dot" style={{ background: '#34e0a1', boxShadow: '0 0 10px #34e0a1' }}></span>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: '#6b8aff', letterSpacing: '0.1em' }}>
+            LYNUS AGENT • DIAGNÓSTICO EM TEMPO REAL
+          </span>
+        </div>
+        <p style={{ fontSize: '17px', lineHeight: '1.7', color: '#f0f2f5', minHeight: '100px' }}>
+          {TOKENS.slice(0, count).map((t, i) => (
+            t.cite ? (
+              <span key={i} style={{ display: 'inline-block', margin: '0 4px', padding: '2px 8px', borderRadius: '6px', background: 'rgba(107,138,255,0.15)', border: '1px solid rgba(107,138,255,0.3)', color: '#93c5fd', fontSize: '12px' }}>
+                🔗 telemetry.lynus.io
+              </span>
+            ) : (
+              <span key={i}>{t.text} </span>
+            )
+          ))}
+          {count < TOKENS.length && (
+            <span style={{ display: 'inline-block', width: '3px', height: '16px', background: '#6b8aff', marginLeft: '4px', verticalAlign: 'middle', animation: 'pulse 1s infinite' }} />
+          )}
+        </p>
+        <div style={{ display: 'flex', gap: '10px', marginTop: '24px', flexWrap: 'wrap' }}>
+          <span className="chip" style={{ background: 'rgba(52,224,161,0.12)', color: '#34e0a1', borderColor: 'rgba(52,224,161,0.3)' }}>
+            ✓ Auto-Remediação Ativa
+          </span>
+          <span className="chip" style={{ background: 'rgba(107,138,255,0.12)', color: '#6b8aff', borderColor: 'rgba(107,138,255,0.3)' }}>
+            ⚡ 11ms MTTR
+          </span>
+          <span className="chip" style={{ background: 'rgba(255,255,255,0.06)', color: '#9a9da3' }}>
+            🌐 Edge CDN Normalizado
+          </span>
+        </div>
       </div>
-      {/* ground shadow */}
-      <div className="mb-shadow"/>
     </div>
   );
 }
 
 function Hero({ layout }) {
-  const { HERO, LOGOS } = window.LYNUS;
+  const { HERO } = window.LYNUS;
+
   return (
     <header className={"hero hero-" + layout} id="top">
       <div className="wrap">
         <div className="hero-grid">
           <div className="hero-copy reveal">
-            <span className="hero-badge">
-              <span className="hero-badge-dot"></span>
-              {HERO.badge}
-              <span className="hero-badge-pill">{HERO.badgePill}</span>
-            </span>
             <h1 className="hero-title">
               {HERO.title.map((line, i) => (
                 <span key={i} className={i === HERO.titleAccentLine ? "accent-line" : ""}>{line} </span>
@@ -311,7 +443,7 @@ function Hero({ layout }) {
             <p className="hero-sub">{HERO.sub}</p>
             <div className="hero-cta">
               <a className="btn btn-primary" href="#cta">{HERO.ctaPrimary} →</a>
-              <a className="btn btn-ghost" href="#plataforma">▷ {HERO.ctaSecondary}</a>
+              <a className="btn btn-ghost" href="#recursos">▷ {HERO.ctaSecondary}</a>
             </div>
             <ul className="hero-bullets">
               {HERO.bullets.map((b) => (
@@ -322,12 +454,8 @@ function Hero({ layout }) {
               ))}
             </ul>
           </div>
-          <div className="hero-visual reveal">
-            <MacbookMockup />
-          </div>
+
         </div>
-
-
       </div>
     </header>
   );
@@ -341,7 +469,7 @@ function Features() {
       <div className="wrap">
         <div className="section-head reveal">
           <span className="eyebrow"><span className="dot"></span>Recursos</span>
-          <h2>Uma central. Todo o ciclo do incidente.</h2>
+          <h2>Do alerta ao post-mortem, num só lugar.</h2>
           <p>Da detecção ao post-mortem, a Lynus reúne tudo o que seu time precisa para responder rápido — sem trocar de ferramenta.</p>
         </div>
         <div className="bento reveal">
@@ -364,72 +492,51 @@ function Features() {
   );
 }
 
-function Dashboards() {
+function SolucoesGrid() {
+  const { SOLUCOES } = window.LYNUS;
   return (
-    <section className="section dash-section" id="plataforma">
+    <section className="section solucoes-section" id="solucoes">
       <div className="wrap">
-        <div className="section-head reveal" style={{marginBottom:'56px'}}>
-          <div className="eyebrow"><span className="dot"/>&nbsp;Dashboards</div>
-          <h2>Visualize sua operação em tempo real</h2>
-          <p>Painéis interativos com dados ao vivo para cada área da sua empresa. Tome decisões baseadas em informação real, não em suposições.</p>
+        <div className="section-head reveal">
+          <span className="eyebrow"><span className="dot"></span>{SOLUCOES.eyebrow}</span>
+          <h2>{SOLUCOES.title}</h2>
+          <p>{SOLUCOES.sub}</p>
         </div>
-        <div className="dash-grid">
-          <a href="faturamento.html" className="dash-card glass reveal" style={{'--card-accent': '#8b6cff'}}>
-            <div className="dash-preview">
-              <MockScreen type="billing" accent="#8b6cff"/>
-            </div>
-            <div className="dash-info">
-              <span className="dash-icon">🧾</span>
-              <div>
-                <h3 className="dash-title">Faturamento &amp; Cobranças</h3>
-                <p className="dash-desc">Contas a pagar, faturas emitidas e histórico de cobranças em um único painel, com indicadores de inadimplência e fluxo de caixa.</p>
+        <div className="solucoes-grid reveal">
+          {SOLUCOES.items.map((s) => (
+            <a key={s.id} href={s.href} className="solucao-card glass" style={{'--card-accent': s.accent}}>
+              <span className="solucao-icon">{s.icon}</span>
+              <h3 className="solucao-title">{s.title}</h3>
+              <p className="solucao-desc">{s.desc}</p>
+              <div className="solucao-tags">
+                {s.tags.map((tag) => <span key={tag} className="solucao-tag">{tag}</span>)}
               </div>
-            </div>
-            <div className="dash-tags">
-              {['Faturas', 'Cobranças', 'Fluxo de Caixa'].map(t => <span key={t} className="dash-tag">{t}</span>)}
-            </div>
-            <div className="dash-footer">
-              <span className="dash-link">Abrir dashboard <span>→</span></span>
-            </div>
-          </a>
+              <span className="solucao-link">Saiba mais <span>→</span></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-          <a href="fintech.html" className="dash-card glass reveal" style={{'--card-accent': '#5b4ee8'}}>
-            <div className="dash-preview">
-              <MockScreen type="fintech" accent="#5b4ee8"/>
+function Vantagens() {
+  const { VANTAGENS } = window.LYNUS;
+  return (
+    <section className="section vantagens-section">
+      <div className="wrap">
+        <div className="section-head reveal" style={{ marginBottom: '44px' }}>
+          <span className="eyebrow"><span className="dot"></span>Por que a Lynus</span>
+          <h2>Também oferecemos isso pra você.</h2>
+        </div>
+        <div className="vantagens-grid reveal">
+          {VANTAGENS.map((v) => (
+            <div key={v.title} className="vantagem-item">
+              <div className="vantagem-icon"><Icon name={v.icon} /></div>
+              <h3 className="vantagem-title">{v.title}</h3>
+              <p className="vantagem-desc">{v.desc}</p>
             </div>
-            <div className="dash-info">
-              <span className="dash-icon">💳</span>
-              <div>
-                <h3 className="dash-title">Fintech &amp; Antifraude</h3>
-                <p className="dash-desc">Gestão de cartões, limites e ações antifraude com recompensas e trilha de auditoria em tempo real.</p>
-              </div>
-            </div>
-            <div className="dash-tags">
-              {['Cartões', 'Antifraude', 'Auditoria'].map(t => <span key={t} className="dash-tag">{t}</span>)}
-            </div>
-            <div className="dash-footer">
-              <span className="dash-link">Abrir dashboard <span>→</span></span>
-            </div>
-          </a>
-
-          <a href="fundflow.html" className="dash-card glass reveal" style={{'--card-accent': '#6c5ce0'}}>
-            <div className="dash-preview">
-              <MockScreen type="fundflow" accent="#6c5ce0"/>
-            </div>
-            <div className="dash-info">
-              <span className="dash-icon">💰</span>
-              <div>
-                <h3 className="dash-title">FundFlow</h3>
-                <p className="dash-desc">Visão completa das finanças pessoais: saldo, cartões, despesas, saúde financeira e transferências rápidas.</p>
-              </div>
-            </div>
-            <div className="dash-tags">
-              {['Saldo', 'Despesas', 'Transferências'].map(t => <span key={t} className="dash-tag">{t}</span>)}
-            </div>
-            <div className="dash-footer">
-              <span className="dash-link">Abrir dashboard <span>→</span></span>
-            </div>
-          </a>
+          ))}
         </div>
       </div>
     </section>
@@ -580,30 +687,16 @@ function CTASection() {
   const [sent, setSent] = React.useState(false);
   const [sending, setSending] = React.useState(false);
   const [error, setError] = React.useState('');
-  const [user, setUser] = React.useState(undefined); // undefined = loading, null = logged out
-
-  React.useEffect(() => {
-    window.supabaseClient.auth.getSession().then(({ data }) => setUser(data.session?.user ?? null));
-    const { data: sub } = window.supabaseClient.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => sub.subscription.unsubscribe();
-  }, []);
-
-  React.useEffect(() => {
-    if (user) setForm(p => ({ ...p, email: user.email }));
-  }, [user]);
-
   const set = k => e => setForm(p => ({...p, [k]: e.target.value}));
   const send = async e => {
     e.preventDefault();
-    if (!user || !form.name || !form.email || !form.msg) return;
+    if (!form.name || !form.email || !form.msg) return;
     setSending(true);
     setError('');
 
     const { error: dbError } = await window.supabaseClient
       .from('contatos')
-      .insert([{ user_id: user.id, name: form.name, email: form.email, message: form.msg }]);
+      .insert([{ name: form.name, email: form.email, message: form.msg }]);
 
     setSending(false);
 
@@ -637,19 +730,6 @@ function CTASection() {
 
             {/* info */}
             <div className="contact-info">
-              <a className="ci-item" href="mailto:comercial@lynustech.com.br">
-                <div className="ci-icon ci-icon-blue">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.4"/>
-                    <path d="M2 6l7 5 7-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <div className="ci-body">
-                  <span className="ci-label">E-mail</span>
-                  <span className="ci-value">comercial@lynustech.com.br</span>
-                </div>
-              </a>
-
               <a className="ci-item" href={WA_SISTEMAS} target="_blank" rel="noopener noreferrer">
                 <div className="ci-icon ci-icon-green">
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -686,19 +766,7 @@ function CTASection() {
             </div>
 
             {/* form */}
-            {!user ? (
-              <div className="contact-form cf-locked">
-                <p className="cf-locked-text">
-                  {user === undefined
-                    ? "Carregando..."
-                    : "Você precisa estar logado para enviar uma mensagem."}
-                </p>
-                {user === null && (
-                  <a className="btn btn-primary cf-submit" href="login.html">Entrar ou criar conta →</a>
-                )}
-              </div>
-            ) : (
-              <form className="contact-form" onSubmit={send}>
+            <form className="contact-form" onSubmit={send}>
                 <div className="cf-row">
                   <div className="cf-field">
                     <label className="cf-label">Nome</label>
@@ -722,7 +790,6 @@ function CTASection() {
                   {sent ? "✓ Mensagem enviada" : sending ? "Enviando..." : "Enviar mensagem →"}
                 </button>
               </form>
-            )}
 
           </div>
         </div>
@@ -757,196 +824,4 @@ function Footer() {
 }
 
 /* ---- Mini dashboard preview (CSS-only mockup) ---- */
-function MockScreen({ type, accent: a }) {
-  const dim  = 'rgba(255,255,255,0.05)';
-  const bd   = 'rgba(255,255,255,0.09)';
-  const t3   = 'rgba(255,255,255,0.18)';
-  const row  = (items) => (
-    <div style={{display:'flex',gap:'5px'}}>
-      {items.map((k,i)=>(
-        <div key={i} style={{flex:1,background:k.hi?`${a}18`:dim,border:`1px solid ${k.hi?a+'32':bd}`,borderRadius:'5px',padding:'5px'}}>
-          <div style={{height:'3px',background:t3,borderRadius:'2px',marginBottom:'3px',width:'65%'}}/>
-          <div style={{height:'8px',background:k.c,borderRadius:'2px',width:k.w||'70%',opacity:k.hi?0.9:0.5}}/>
-          {k.sub&&<div style={{height:'3px',background:t3,borderRadius:'2px',marginTop:'3px',width:'40%'}}/>}
-        </div>
-      ))}
-    </div>
-  );
-  const tableRows = (n, ac) => (
-    <div style={{background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'5px 8px',display:'flex',flexDirection:'column',gap:'4px'}}>
-      {Array.from({length:n}).map((_,i)=>(
-        <div key={i} style={{display:'flex',gap:'5px',alignItems:'center'}}>
-          <div style={{width:'9%',height:'4px',background:i===0?`${ac}55`:t3,borderRadius:'2px'}}/>
-          <div style={{flex:1,height:'4px',background:t3,borderRadius:'2px'}}/>
-          <div style={{width:'22%',height:'9px',background:i===0?`${ac}28`:i===1?'rgba(52,224,161,.18)':'rgba(255,181,71,.18)',borderRadius:'6px'}}/>
-        </div>
-      ))}
-    </div>
-  );
-  return (
-    <div style={{width:'100%',aspectRatio:'16/10',background:'#0C0D13',overflow:'hidden',display:'flex',flexDirection:'column',borderRadius:'10px'}}>
-      {/* topbar */}
-      <div style={{height:'26px',background:'rgba(255,255,255,0.03)',borderBottom:`1px solid ${bd}`,display:'flex',alignItems:'center',padding:'0 10px',gap:'6px',flexShrink:0}}>
-        <div style={{width:'56px',height:'6px',background:`${a}50`,borderRadius:'3px'}}/>
-        <div style={{marginLeft:'auto',display:'flex',gap:'4px'}}>
-          <div style={{width:'20px',height:'6px',background:dim,borderRadius:'3px'}}/>
-          <div style={{width:'28px',height:'6px',background:`${a}35`,borderRadius:'3px'}}/>
-        </div>
-      </div>
-      {/* body */}
-      <div style={{flex:1,display:'flex',overflow:'hidden'}}>
-        {/* sidebar */}
-        <div style={{width:'42px',background:'rgba(255,255,255,0.02)',borderRight:`1px solid ${bd}`,display:'flex',flexDirection:'column',alignItems:'center',gap:'7px',padding:'10px 0',flexShrink:0}}>
-          {[1,2,3,4,5].map(i=><div key={i} style={{width:'26px',height:'5px',borderRadius:'3px',background:i===1?`${a}55`:dim}}/>)}
-        </div>
-        {/* content */}
-        <div style={{flex:1,padding:'8px',display:'flex',flexDirection:'column',gap:'6px',overflow:'hidden'}}>
-
-          {type==='finance'&&<>
-            {row([{hi:true,c:a,sub:1},{c:'#ff5c6c',w:'55%'},{c:'#34e0a1',w:'75%'},{c:t3,w:'45%'}])}
-            <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'6px 8px',display:'flex',alignItems:'flex-end',gap:'2px',overflow:'hidden'}}>
-              {[38,52,45,68,60,78,86,74,90,84,100,93].map((h,i)=>(
-                <div key={i} style={{flex:1,height:`${h*0.73}%`,background:i===10?a:`${a}22`,borderRadius:'2px 2px 0 0'}}/>
-              ))}
-            </div>
-            {tableRows(3,a)}
-          </>}
-
-          {type==='maintenance'&&<>
-            {row([{hi:true,c:a},{c:'#34e0a1',w:'60%'},{c:'#ffb547',w:'65%'},{c:t3,w:'45%'}])}
-            <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'6px',display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'4px',alignContent:'start'}}>
-              {['ok','ok','warn','ok','ok','crit','ok','ok'].map((s,i)=>(
-                <div key={i} style={{background:'rgba(255,255,255,0.02)',border:`1px solid ${s==='ok'?'#34e0a118':s==='warn'?'#ffb54728':'#ff5c6c28'}`,borderRadius:'4px',padding:'5px 3px',display:'flex',flexDirection:'column',alignItems:'center',gap:'3px'}}>
-                  <div style={{width:'6px',height:'6px',borderRadius:'50%',background:s==='ok'?'#34e0a1':s==='warn'?'#ffb547':'#ff5c6c',boxShadow:`0 0 5px ${s==='ok'?'#34e0a155':s==='warn'?'#ffb54755':'#ff5c6c55'}`}}/>
-                  <div style={{height:'3px',background:t3,borderRadius:'2px',width:'75%'}}/>
-                </div>
-              ))}
-            </div>
-            <div style={{background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'5px 7px',display:'flex',flexDirection:'column',gap:'4px'}}>
-              {[{c:a},{c:'#ffb547'},{c:'#34e0a1'}].map((o,i)=>(
-                <div key={i} style={{display:'flex',alignItems:'center',gap:'5px'}}>
-                  <div style={{width:'5px',height:'5px',borderRadius:'50%',background:o.c,flexShrink:0}}/>
-                  <div style={{flex:1,height:'4px',background:t3,borderRadius:'2px'}}/>
-                  <div style={{width:'22%',height:'8px',background:`${o.c}28`,borderRadius:'4px'}}/>
-                </div>
-              ))}
-            </div>
-          </>}
-
-          {type==='pcm'&&<>
-            {row([{hi:true,c:a},{c:'rgba(52,224,161,.55)',w:'75%'},{c:'rgba(255,181,71,.55)',w:'60%'}])}
-            <div style={{flex:1,display:'flex',gap:'5px',overflow:'hidden'}}>
-              <div style={{width:'42%',background:dim,border:`1px solid ${bd}`,borderRadius:'6px',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                <div style={{position:'relative',width:'46px',height:'46px',flexShrink:0}}>
-                  <div style={{position:'absolute',inset:0,borderRadius:'50%',background:`conic-gradient(${a} 0% 60%, rgba(52,224,161,.7) 60% 80%, rgba(255,181,71,.7) 80% 100%)`}}/>
-                  <div style={{position:'absolute',inset:'10px',borderRadius:'50%',background:'#0C0D13'}}/>
-                </div>
-              </div>
-              <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'7px 6px',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-                {[75,50,90,42,65].map((h,i)=>(
-                  <div key={i} style={{display:'flex',alignItems:'center',gap:'3px'}}>
-                    <div style={{width:'3px',height:'3px',borderRadius:'50%',background:t3,flexShrink:0}}/>
-                    <div style={{flex:h/100,height:'4px',background:`${a}60`,borderRadius:'2px',transition:'flex 1s ease'}}/>
-                    <div style={{flex:1-h/100,height:'4px',background:t3,borderRadius:'2px'}}/>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {tableRows(3,a)}
-          </>}
-
-          {type==='billing'&&<>
-            {row([{hi:true,c:a},{c:'rgba(52,224,161,.55)',w:'70%'},{c:'#ff5c6c',w:'40%'},{c:t3,w:'55%'}])}
-            <div style={{flex:1,display:'flex',gap:'5px',overflow:'hidden'}}>
-              <div style={{width:'30%',background:`${a}14`,border:`1px solid ${a}30`,borderRadius:'6px',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                <div style={{position:'relative',width:'42px',height:'42px',flexShrink:0}}>
-                  <div style={{position:'absolute',inset:0,borderRadius:'50%',background:`conic-gradient(${a} 0% 45%, ${a}25 45% 100%)`}}/>
-                  <div style={{position:'absolute',inset:'8px',borderRadius:'50%',background:'#0C0D13',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                    <span style={{fontSize:'7px',fontWeight:700,color:a}}>45%</span>
-                  </div>
-                </div>
-              </div>
-              <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'6px 8px',display:'flex',alignItems:'flex-end',gap:'3px',overflow:'hidden'}}>
-                {[55,72,48,80,65,90,76,60].map((h,i)=>(
-                  <div key={i} style={{flex:1,height:`${h*0.78}%`,background:i===5?a:`${a}30`,borderRadius:'2px 2px 0 0'}}/>
-                ))}
-              </div>
-            </div>
-            <div style={{background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'5px 8px',display:'flex',alignItems:'center',gap:'6px'}}>
-              <div style={{width:'12px',height:'12px',borderRadius:'50%',background:`${a}40`,flexShrink:0}}/>
-              <div style={{flex:1,height:'4px',background:t3,borderRadius:'2px'}}/>
-              <div style={{width:'20%',height:'9px',background:'rgba(52,224,161,.22)',borderRadius:'6px'}}/>
-            </div>
-          </>}
-
-          {type==='fintech'&&<>
-            {row([{hi:true,c:a,w:'80%'},{c:t3,w:'60%'},{c:'#ff5c6c',w:'45%'}])}
-            <div style={{flex:1,display:'flex',gap:'5px',overflow:'hidden'}}>
-              <div style={{width:'38%',borderRadius:'7px',background:'linear-gradient(120deg,#5b4ee855,#14b8a655,#f5a62355)',padding:'6px',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-                <div style={{width:'14px',height:'10px',borderRadius:'2px',background:'rgba(255,255,255,.6)'}}/>
-                <div style={{height:'4px',background:'rgba(255,255,255,.7)',borderRadius:'2px',width:'80%'}}/>
-              </div>
-              <div style={{flex:1,background:dim,border:`1px solid ${bd}`,borderRadius:'6px',padding:'6px 8px',display:'flex',alignItems:'center',overflow:'hidden'}}>
-                <svg viewBox="0 0 100 40" width="100%" height="100%" preserveAspectRatio="none">
-                  <polyline points="0,30 15,20 30,26 45,8 60,18 75,4 90,14 100,2" fill="none" stroke={a} strokeWidth="2.5"/>
-                </svg>
-              </div>
-            </div>
-            {tableRows(3,a)}
-          </>}
-
-          {type==='fundflow'&&<>
-            {row([{hi:true,c:a},{c:t3,w:'55%'},{c:'#34e0a1',w:'70%'}])}
-            <div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center',gap:'-4px',overflow:'hidden'}}>
-              <div style={{width:'30px',height:'30px',borderRadius:'50%',background:`${a}33`,marginRight:'-8px'}}/>
-              <div style={{width:'40px',height:'40px',borderRadius:'50%',background:a,zIndex:1,boxShadow:`0 0 12px ${a}66`}}/>
-              <div style={{width:'30px',height:'30px',borderRadius:'50%',background:`${a}33`,marginLeft:'-8px'}}/>
-            </div>
-            {tableRows(3,a)}
-          </>}
-
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SistemasShowcase() {
-  const { SISTEMAS } = window.LYNUS;
-  return (
-    <section className="section sistemas-section reveal" id="sistemas">
-      <div className="wrap">
-        <div className="section-head" style={{marginBottom:'60px'}}>
-          <div className="eyebrow"><span className="dot"/>&nbsp;Nossas Soluções</div>
-          <h2>Sistemas feitos para operar</h2>
-          <p>Cada plataforma construída para resolver um problema real — com dados em tempo real e UX pensada para o dia a dia da sua equipe.</p>
-        </div>
-        <div className="sistemas-grid">
-          {SISTEMAS.map((s, i) => (
-            <a key={s.id} href={s.href} className="sistema-card reveal" style={{'--card-accent': s.accent, animationDelay: `${i * 0.12}s`}}>
-              <div className="sistema-num">0{i+1}</div>
-              <div className="sistema-preview">
-                <MockScreen type={s.preview} accent={s.accent}/>
-              </div>
-              <div className="sistema-body">
-                <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-                  <span className="sistema-icon">{s.icon}</span>
-                  <h3 className="sistema-title">{s.title}</h3>
-                </div>
-                <p className="sistema-desc">{s.desc}</p>
-                <div className="sistema-tags">
-                  {s.tags.map(tag => (
-                    <span key={tag} className="sistema-tag">{tag}</span>
-                  ))}
-                </div>
-                <div className="sistema-cta">Ver sistema <span>→</span></div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-window.LynusSections = { Nav, Hero, Features, SistemasShowcase, Dashboards, Sobre, CTASection, Footer, Cursor, PageLoader, ThreeBackground };
+window.LynusSections = { Nav, Hero, Features, SolucoesGrid, Vantagens, Sobre, CTASection, Footer, Cursor, PageLoader, ThreeBackground };

@@ -32,18 +32,14 @@ const NAV = {
   links: [
     { label: "Início",      href: "#top" },
     { label: "Recursos",    href: "#recursos" },
-    { label: "Sistemas",    href: "#sistemas" },
-    { label: "Dashboards",  href: "#plataforma" },
+    { label: "Soluções",    href: "#solucoes" },
     { label: "Sobre",       href: "#sobre" },
     { label: "Contato",     href: "#cta" },
   ],
-  signin: "Entrar",
-  cta: "Começar agora",
+  cta: "Falar no WhatsApp",
 };
 
 const HERO = {
-  badge: "Plataforma de resposta a incidentes",
-  badgePill: "v3.0 · IA de correlação",
   title: ["Problemas acontecem.", "A Lynus", "resolve."],
   titleAccentLine: 2,
   sub: "A Lynus Tech é a central completa para mapear, automatizar e otimizar os fluxos da sua operação. Detecção de gargalos em tempo real, automação de workflows e relatórios inteligentes — tudo em um só lugar.",
@@ -95,6 +91,28 @@ const FEATURES = [
   },
 ];
 
+const SOLUCOES = {
+  eyebrow: "Nossas soluções",
+  title: "Uma plataforma. Todas as frentes da sua operação.",
+  sub: "Módulos conectados que cobrem cada etapa do fluxo — organize, edite ou expanda conforme sua operação cresce.",
+  items: [
+    { id: "financeiro", title: "Financeiro", desc: "Controle de receitas, despesas, DRE e fluxo de caixa com indicadores em tempo real.", icon: "💰", href: "financeiro.html", tags: ["DRE", "Fluxo de caixa"], accent: "#6b8aff" },
+    { id: "estoque", title: "Estoque", desc: "Controle de entradas, saídas e níveis de estoque, com alertas de ruptura e giro por item.", icon: "📦", href: "estoque.html", tags: ["Inventário", "Giro"], accent: "#34e0a1" },
+    { id: "compras", title: "Compras", desc: "Gestão de pedidos, fornecedores, orçamentos e aprovações de compras num único fluxo.", icon: "🛒", href: "pcm.html", tags: ["Fornecedores", "Aprovações"], accent: "#ffb547" },
+    { id: "rh", title: "RH", desc: "Gestão de colaboradores, ponto, documentos e indicadores de pessoas centralizados.", icon: "👥", href: "rh.html", tags: ["Colaboradores", "Ponto"], accent: "#f5c518" },
+    { id: "crm", title: "CRM", desc: "Relacionamento com clientes, funil de vendas e histórico de contatos em um só lugar.", icon: "🤝", href: "crm.html", tags: ["Funil", "Clientes"], accent: "#36d0e8" },
+    { id: "pcm", title: "PCM", desc: "Planejamento e controle de manutenções preventivas, preditivas e corretivas.", icon: "🔧", href: "manutencao.html", tags: ["Preventiva", "Ordens de serviço"], accent: "#ff8a3d" },
+  ],
+};
+
+const VANTAGENS = [
+  { icon: "deploy",   title: "Implantação",       desc: "Baixos custos de implantação, integração e customização." },
+  { icon: "cloud",    title: "Infra em nuvem",    desc: "Opção de infraestrutura em nuvem (SaaS), sem custos adicionais." },
+  { icon: "discount", title: "Descontos especiais", desc: "Descontos especiais para grandes volumes." },
+  { icon: "headset",  title: "Atendimento",       desc: "Atendimento direto do fabricante em português." },
+  { icon: "shield",   title: "Segurança de dados", desc: "Criptografia e backups automáticos para proteger suas informações." },
+];
+
 const CTA = {
   eyebrow: "Pronto quando você estiver",
   title: "Durma tranquilo. A Lynus está de plantão.",
@@ -111,7 +129,7 @@ const FOOTER = {
     { h: "Recursos", items: ["Documentação", "API", "Changelog", "Comunidade", "Status"] },
     { h: "Legal", items: ["Privacidade", "Termos", "Segurança", "LGPD"] },
   ],
-  copyright: "© 2026 Lynus Tech. Todos os direitos reservados.",
+  copyright: "© 2026 Lynus Tech. Todos os direitos reservados. CNPJ 68.200.725/0001-67",
 };
 
 /* ---- reliable visibility manager (IntersectionObserver is flaky in sandbox) ---- */
@@ -138,39 +156,6 @@ function startVisibility() {
   requestAnimationFrame(_checkVisible);
   setTimeout(_checkVisible, 120);
 }
-
-const SISTEMAS = [
-  {
-    id: 'financeiro',
-    title: 'Sistema Financeiro',
-    desc: 'Controle de receitas, despesas, DRE e fluxo de caixa com gráficos em tempo real.',
-    icon: '💰',
-    href: 'financeiro.html',
-    tags: ['Financeiro', 'DRE', 'ERP'],
-    accent: '#6b8aff',
-    preview: 'finance',
-  },
-  {
-    id: 'manutencao',
-    title: 'PCM',
-    desc: 'Planejamento e controle de manutenções preventivas, preditivas e corretivas.',
-    icon: '🔧',
-    href: 'manutencao.html',
-    tags: ['PCM', 'OS', 'Preventiva'],
-    accent: '#34e0a1',
-    preview: 'maintenance',
-  },
-  {
-    id: 'pcm',
-    title: 'Compras',
-    desc: 'Gestão de pedidos, fornecedores, orçamentos e aprovações de compras.',
-    icon: '🛒',
-    href: 'pcm.html',
-    tags: ['Compras', 'Fornecedores', 'PO'],
-    accent: '#ffb547',
-    preview: 'pcm',
-  },
-];
 
 const SOBRE = {
   eyebrow: "Nossa história",
@@ -213,4 +198,4 @@ const SOBRE = {
   ],
 };
 
-window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, LOGOS, STATS, FEATURES, CTA, FOOTER, SISTEMAS, SOBRE, observeVisible, startVisibility };
+window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, LOGOS, STATS, FEATURES, SOLUCOES, VANTAGENS, CTA, FOOTER, SOBRE, observeVisible, startVisibility };
