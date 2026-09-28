@@ -225,6 +225,12 @@ function Icon({ name }) {
     deploy: <g {...p}><rect x="2" y="3" width="14" height="10" rx="1.4" /><path d="M6 17h6M9 13v4" /><path d="M15 11l4-3-4-3M19 8h-6" /></g>,
     cloud: <g {...p}><path d="M7 17a4 4 0 0 1-.4-8 5 5 0 0 1 9.6-1.6A3.6 3.6 0 0 1 16 15.8" /><path d="M7 17h9" /></g>,
     discount: <g {...p}><circle cx="12" cy="12" r="9" /><circle cx="9" cy="9" r="1.4" fill="currentColor" stroke="none" /><circle cx="15" cy="15" r="1.4" fill="currentColor" stroke="none" /><path d="M9 15l6-6" /></g>,
+    cart: <g {...p}><path d="M3 4h2l2.4 11h10.2L20 8H6.2" /><circle cx="9" cy="19" r="1.4" /><circle cx="17" cy="19" r="1.4" /></g>,
+    box: <g {...p}><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z" /><path d="M3 7.5 12 12l9-4.5M12 12v9" /></g>,
+    wrench: <path {...p} d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-3-3 8-8M14.7 6.3 13 5l-3.5 3.5a4 4 0 0 0-5 5L3 15l3 3 1.5-1.5a4 4 0 0 0 5-5" />,
+    users: <g {...p}><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0" /><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.3a6.5 6.5 0 0 1 3.5 5.7" /></g>,
+    coin: <g {...p}><circle cx="12" cy="12" r="9" /><path d="M15 8.5c-.6-.9-1.7-1.5-3-1.5-1.9 0-3 1-3 2.4 0 3.3 6 1.9 6 5.2 0 1.4-1.2 2.4-3 2.4-1.4 0-2.5-.6-3.1-1.6M12 5.5V7M12 17v1.5" /></g>,
+    unlink: <g {...p}><path d="M9.5 14.5 7 17a3.5 3.5 0 0 1-5-5l2.5-2.5M14.5 9.5 17 7a3.5 3.5 0 0 1 5 5l-2.5 2.5" /><path d="M8 4v2M4 8h2M16 20v-2M20 16h-2" /></g>,
     headset: <g {...p}><path d="M4 13v-1a8 8 0 0 1 16 0v1" /><rect x="2.5" y="12" width="4" height="6" rx="1.5" /><rect x="17.5" y="12" width="4" height="6" rx="1.5" /><path d="M20 18.5v.5a3 3 0 0 1-3 3h-3" /></g>,
   };
   return <svg className="ic" viewBox="0 0 24 24" width="22" height="22">{paths[name]}</svg>;
@@ -246,7 +252,7 @@ function Nav() {
           {NAV.links.map((l) => <a key={l.label} href={l.href}>{l.label}</a>)}
         </div>
         <div className="nav-actions">
-          <a className="btn btn-primary btn-sm" href="https://wa.me/5599991754232" target="_blank" rel="noopener noreferrer">{NAV.cta}</a>
+          <a className="btn btn-primary btn-sm" href="#contato">{NAV.cta}</a>
         </div>
       </div>
     </nav>
@@ -442,17 +448,10 @@ function Hero({ layout }) {
             </h1>
             <p className="hero-sub">{HERO.sub}</p>
             <div className="hero-cta">
-              <a className="btn btn-primary" href="#cta">{HERO.ctaPrimary} →</a>
-              <a className="btn btn-ghost" href="#recursos">▷ {HERO.ctaSecondary}</a>
+              <a className="btn btn-primary" href="#contato">{HERO.ctaPrimary} →</a>
+              <a className="btn btn-ghost" href={HERO.whatsapp} target="_blank" rel="noopener noreferrer">{HERO.ctaSecondary}</a>
             </div>
-            <ul className="hero-bullets">
-              {HERO.bullets.map((b) => (
-                <li key={b.k}>
-                  <span className="hero-bullet-check">✓</span>
-                  <span><strong>{b.k}</strong><em>{b.d}</em></span>
-                </li>
-              ))}
-            </ul>
+            <p className="hero-note">{HERO.note}</p>
           </div>
 
         </div>
@@ -465,27 +464,53 @@ function Hero({ layout }) {
 function Features() {
   const { FEATURES } = window.LYNUS;
   return (
-    <section className="section" id="recursos">
+    <section className="section" id="dores">
       <div className="wrap">
         <div className="section-head reveal">
-          <span className="eyebrow"><span className="dot"></span>Recursos</span>
-          <h2>Do alerta ao post-mortem, num só lugar.</h2>
-          <p>Da detecção ao post-mortem, a Lynus reúne tudo o que seu time precisa para responder rápido — sem trocar de ferramenta.</p>
+          <h2>{FEATURES.title}</h2>
+          <p>{FEATURES.sub}</p>
         </div>
-        <div className="bento reveal">
-          {FEATURES.map((f, i) => (
-            <article key={f.title} className={"bento-card glass bento-b" + (i + 1)}>
+        <div className="dores-grid reveal">
+          {FEATURES.items.map((f) => (
+            <article key={f.title} className="bento-card glass">
               <div className="bento-icon"><Icon name={f.icon} /></div>
-              <span className="bento-tag">{f.tag}</span>
               <h3 className="bento-title">{f.title}</h3>
               <p className="bento-desc">{f.desc}</p>
-              {f.chips && (
-                <div className="bento-chips">
-                  {f.chips.map((c) => <span key={c} className="chip">{c}</span>)}
-                </div>
-              )}
             </article>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Diagnostico() {
+  const { DIAGNOSTICO } = window.LYNUS;
+  return (
+    <section className="section" id="diagnostico">
+      <div className="wrap diag-grid">
+        <div className="diag-box glass reveal">
+          <span className="eyebrow"><span className="dot"></span>{DIAGNOSTICO.eyebrow}</span>
+          <h3 className="diag-box-title">{DIAGNOSTICO.boxTitle}</h3>
+          <p className="diag-box-text">{DIAGNOSTICO.boxText}</p>
+          <ul className="diag-entregas">
+            {DIAGNOSTICO.entregas.map((e) => (
+              <li key={e}><span className="hero-bullet-check">✓</span>{e}</li>
+            ))}
+          </ul>
+          <a className="btn btn-primary" href="#contato">{DIAGNOSTICO.cta} →</a>
+        </div>
+        <div className="reveal">
+          <h2 className="diag-title">{DIAGNOSTICO.title}</h2>
+          <p className="diag-sub">{DIAGNOSTICO.sub}</p>
+          <ol className="diag-dias">
+            {DIAGNOSTICO.dias.map((d) => (
+              <li key={d.d}>
+                <span className="diag-dia">{d.d}</span>
+                <span><strong>{d.t}</strong>{d.x}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>
@@ -495,7 +520,7 @@ function Features() {
 function SolucoesGrid() {
   const { SOLUCOES } = window.LYNUS;
   return (
-    <section className="section solucoes-section" id="solucoes">
+    <section className="section solucoes-section" id="servicos">
       <div className="wrap">
         <div className="section-head reveal">
           <span className="eyebrow"><span className="dot"></span>{SOLUCOES.eyebrow}</span>
@@ -503,17 +528,20 @@ function SolucoesGrid() {
           <p>{SOLUCOES.sub}</p>
         </div>
         <div className="solucoes-grid reveal">
-          {SOLUCOES.items.map((s) => (
-            <a key={s.id} href={s.href} className="solucao-card glass" style={{'--card-accent': s.accent}}>
-              <span className="solucao-icon">{s.icon}</span>
-              <h3 className="solucao-title">{s.title}</h3>
-              <p className="solucao-desc">{s.desc}</p>
-              <div className="solucao-tags">
-                {s.tags.map((tag) => <span key={tag} className="solucao-tag">{tag}</span>)}
-              </div>
-              <span className="solucao-link">Saiba mais <span>→</span></span>
-            </a>
-          ))}
+          {SOLUCOES.items.map((s) => {
+            const Tag = s.href ? "a" : "div";
+            return (
+              <Tag key={s.id} href={s.href} className="solucao-card glass">
+                <div className="bento-icon"><Icon name={s.icon} /></div>
+                <h3 className="solucao-title">{s.title}</h3>
+                <p className="solucao-desc">{s.desc}</p>
+                <ul className="solucao-itens">
+                  {s.itens.map((it) => <li key={it}>{it}</li>)}
+                </ul>
+                {s.href && <span className="solucao-link">Ver demonstração <span>→</span></span>}
+              </Tag>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -546,14 +574,22 @@ function Vantagens() {
 function Sobre() {
   const { SOBRE } = window.LYNUS;
   return (
-    <section className="section sobre-section" id="sobre">
+    <section className="section sobre-section" id="quem-faz">
       <div className="wrap">
+        <div className="quem-grid reveal">
+          <div>
+            <span className="eyebrow"><span className="dot"/>{SOBRE.eyebrow}</span>
+            <h2 className="quem-title">{SOBRE.title}</h2>
+            {SOBRE.paragrafos.map((p, i) => <p key={i} className="quem-p">{p}</p>)}
+          </div>
+          <ol className="quem-trajeto">
+            {SOBRE.trajeto.map((s) => (
+              <li key={s.t}><strong>{s.t}</strong><span>{s.x}</span></li>
+            ))}
+          </ol>
+        </div>
 
-        {/* Header + founder */}
-        <div className="section-head reveal" style={{marginBottom:'48px'}}>
-          <div className="eyebrow"><span className="dot"/>&nbsp;{SOBRE.eyebrow}</div>
-          <h2>{SOBRE.title}</h2>
-          <p className="sobre-mission">{SOBRE.mission}</p>
+        <div className="reveal">
           <div className="sobre-founders">
             {/* Ricardo */}
             <div className="sobre-founder">
@@ -580,216 +616,119 @@ function Sobre() {
           </div>
         </div>
 
-        {/* Values */}
-        <div className="sobre-values reveal">
-          {SOBRE.values.map(v => (
-            <div key={v.label} className="sobre-value glass">
-              <span className="sobre-value-icon">{v.icon}</span>
-              <h4>{v.label}</h4>
-              <p>{v.text}</p>
-            </div>
+      </div>
+    </section>
+  );
+}
+
+function Processo() {
+  const { PROCESSO } = window.LYNUS;
+  return (
+    <section className="section">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <h2>{PROCESSO.title}</h2>
+        </div>
+        <ol className="processo-grid reveal">
+          {PROCESSO.etapas.map((e, i) => (
+            <li key={e.t}>
+              <span className="processo-num">{i + 1}</span>
+              <h3>{e.t}</h3>
+              <p>{e.x}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+function Faq() {
+  const { FAQ } = window.LYNUS;
+  return (
+    <section className="section" id="perguntas">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <h2>{FAQ.title}</h2>
+        </div>
+        <div className="faq reveal">
+          {FAQ.items.map((f) => (
+            <details key={f.q}>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
           ))}
         </div>
-
-        {/* Story + timeline */}
-        <div className="sobre-story-wrap reveal">
-          <div className="sobre-story-left">
-            <h3>De onde viemos</h3>
-            {SOBRE.storyNarrative.map((p, i) => <p key={i}>{p}</p>)}
-            <div className="sobre-timeline">
-              {SOBRE.timeline.map(s => (
-                <div key={s.year} className="sobre-tl-item">
-                  <span className="sobre-tl-year">{s.year}</span>
-                  <span className="sobre-tl-text">{s.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="sobre-story-right">
-            <div className="radar-wrap">
-              <div className="radar-scope">
-                <div className="radar-ring r1"/>
-                <div className="radar-ring r2"/>
-                <div className="radar-ring r3"/>
-                <div className="radar-cross-h"/>
-                <div className="radar-cross-v"/>
-                <div className="radar-sweep"/>
-                {/* Power BI */}
-                <div className="radar-app" style={{top:'22%',left:'69%',animationDelay:'0.38s','--ac':'#F2C811'}}>
-                  <svg viewBox="0 0 16 12" width="18" height="14" fill="none">
-                    <rect x="0" y="7" width="3" height="5" rx=".4" fill="#F2C811"/>
-                    <rect x="4" y="4" width="3" height="8" rx=".4" fill="#F2C811"/>
-                    <rect x="8" y="1" width="3" height="11" rx=".4" fill="#F2C811"/>
-                    <rect x="12" y="5" width="3" height="7" rx=".4" fill="#F2C811" opacity=".55"/>
-                  </svg>
-                </div>
-                {/* VS Code */}
-                <div className="radar-app" style={{top:'68%',left:'68%',animationDelay:'1.13s','--ac':'#007ACC'}}>
-                  <svg viewBox="0 0 18 13" width="18" height="13" fill="none">
-                    <path d="M5 1L1 6.5L5 12" stroke="#007ACC" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M13 1L17 6.5L13 12" stroke="#007ACC" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <line x1="7" y1="6.5" x2="11" y2="6.5" stroke="#007ACC" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                {/* Excel */}
-                <div className="radar-app" style={{top:'72%',left:'35%',animationDelay:'1.75s','--ac':'#217346'}}>
-                  <svg viewBox="0 0 16 16" width="16" height="16">
-                    <rect width="16" height="16" rx="2.5" fill="#217346"/>
-                    <path d="M4.5 4.5L11.5 11.5M11.5 4.5L4.5 11.5" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                {/* GitHub */}
-                <div className="radar-app" style={{top:'44%',left:'19%',animationDelay:'2.33s','--ac':'#cdd9e5'}}>
-                  <svg viewBox="0 0 16 16" width="16" height="16" fill="#cdd9e5">
-                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38l-.01-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48L14 15c0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                  </svg>
-                </div>
-                {/* SAP */}
-                <div className="radar-app" style={{top:'27%',left:'37%',animationDelay:'2.75s','--ac':'#0070F2'}}>
-                  <svg viewBox="0 0 26 14" width="26" height="14">
-                    <rect width="26" height="14" rx="2" fill="#0070F2"/>
-                    <text x="3" y="11" fill="white" fontFamily="Arial,sans-serif" fontWeight="bold" fontSize="10">SAP</text>
-                  </svg>
-                </div>
-                <div className="radar-center"><span>L</span></div>
-              </div>
-              <div className="radar-status">
-                <span className="radar-status-dot"/>
-                <span className="radar-status-text">SCANNING</span>
-                <span className="radar-status-coords">5 sinais detectados</span>
-              </div>
-            </div>
-            {/* Mission statement */}
-            <div className="sobre-mission-box glass">
-              <span className="sobre-mission-label">Nossa missão</span>
-              <p>{SOBRE.missionStatement}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Numbers */}
-        <div className="sobre-numbers reveal">
-          {SOBRE.numbers.map(n => (
-            <div key={n.label} className="sobre-num">
-              <span className="sobre-num-val">{n.v}</span>
-              <span className="sobre-num-label">{n.label}</span>
-            </div>
-          ))}
-        </div>
-
       </div>
     </section>
   );
 }
 
 function CTASection() {
-  const [form, setForm] = React.useState({ name: '', email: '', msg: '' });
-  const [sent, setSent] = React.useState(false);
-  const [sending, setSending] = React.useState(false);
+  const { CONTATO, waLink } = window.LYNUS;
+  const [form, setForm] = React.useState({ nome: '', empresa: '', porte: '', area: CONTATO.areas[0] });
   const [error, setError] = React.useState('');
   const set = k => e => setForm(p => ({...p, [k]: e.target.value}));
-  const send = async e => {
+  const send = e => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.msg) return;
-    setSending(true);
-    setError('');
-
-    const { error: dbError } = await window.supabaseClient
-      .from('contatos')
-      .insert([{ name: form.name, email: form.email, message: form.msg }]);
-
-    setSending(false);
-
-    if (dbError) {
-      setError('Não foi possível enviar agora. Tente novamente em instantes.');
+    const nome = form.nome.trim();
+    const empresa = form.empresa.trim();
+    if (!nome || !empresa || !form.porte) {
+      setError('Preencha nome, empresa e número de colaboradores para continuar.');
       return;
     }
-
-    setForm(p => ({ ...p, name: '', msg: '' }));
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
+    setError('');
+    const msg = `Olá, Ricardo. Sou ${nome}, da ${empresa}. Temos ${form.porte} colaboradores. Área que mais precisa de controle: ${form.area}. Quero saber sobre o diagnóstico de processos.`;
+    window.open(waLink(msg), '_blank', 'noopener');
   };
-  const WA_SISTEMAS   = "https://wa.me/5599991754232";
-  const WA_DASHBOARDS = "https://wa.me/5599984035823";
 
   return (
-    <section className="section contact-section" id="cta">
+    <section className="section contact-section" id="contato">
       <div className="wrap">
         <div className="contact-box glass reveal">
           <div className="contact-glow"/>
 
-          {/* header */}
-          <div className="contact-head">
-            <span className="eyebrow"><span className="dot"/>Contato</span>
-            <h2>Vamos conversar sobre o seu projeto</h2>
-          </div>
-
-          {/* two columns */}
           <div className="contact-cols">
-
-            {/* info */}
-            <div className="contact-info">
-              <a className="ci-item" href={WA_SISTEMAS} target="_blank" rel="noopener noreferrer">
-                <div className="ci-icon ci-icon-green">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M9 1.5A7.5 7.5 0 0 1 16.5 9c0 4.14-3.36 7.5-7.5 7.5a7.47 7.47 0 0 1-3.84-1.06L1.5 16.5l1.1-3.96A7.47 7.47 0 0 1 1.5 9 7.5 7.5 0 0 1 9 1.5Z" stroke="currentColor" strokeWidth="1.4"/>
-                    <path d="M6.5 7.2c.1.4.4 1.1.9 1.8.6.8 1.3 1.5 2.2 1.9.4.2.9.1 1.2-.2l.3-.4c.2-.2.5-.3.7-.2l1.2.5c.3.1.4.5.3.8-.4 1-1.4 1.6-2.5 1.3-1.7-.4-3.3-2-3.8-3.6-.3-.9.2-2 1.2-2.4.3-.1.6 0 .7.3l.5 1.2c.1.2 0 .5-.2.7l-.3.3c-.2.2-.3.5-.2.8Z" fill="currentColor"/>
-                  </svg>
-                </div>
-                <div className="ci-body">
-                  <span className="ci-label">WhatsApp · Sistemas</span>
-                  <span className="ci-value">Falar sobre sistemas →</span>
-                </div>
-              </a>
-
-              <a className="ci-item" href={WA_DASHBOARDS} target="_blank" rel="noopener noreferrer">
-                <div className="ci-icon ci-icon-green">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M9 1.5A7.5 7.5 0 0 1 16.5 9c0 4.14-3.36 7.5-7.5 7.5a7.47 7.47 0 0 1-3.84-1.06L1.5 16.5l1.1-3.96A7.47 7.47 0 0 1 1.5 9 7.5 7.5 0 0 1 9 1.5Z" stroke="currentColor" strokeWidth="1.4"/>
-                    <path d="M6.5 7.2c.1.4.4 1.1.9 1.8.6.8 1.3 1.5 2.2 1.9.4.2.9.1 1.2-.2l.3-.4c.2-.2.5-.3.7-.2l1.2.5c.3.1.4.5.3.8-.4 1-1.4 1.6-2.5 1.3-1.7-.4-3.3-2-3.8-3.6-.3-.9.2-2 1.2-2.4.3-.1.6 0 .7.3l.5 1.2c.1.2 0 .5-.2.7l-.3.3c-.2.2-.3.5-.2.8Z" fill="currentColor"/>
-                  </svg>
-                </div>
-                <div className="ci-body">
-                  <span className="ci-label">WhatsApp · Dashboards</span>
-                  <span className="ci-value">Falar sobre dashboards →</span>
-                </div>
-              </a>
-
-              <div className="ci-note">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2"/>
-                  <path d="M7 6v4M7 4.5v.5" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round"/>
-                </svg>
-                Retornamos em até 24 horas úteis
+            <div className="contact-head">
+              <span className="eyebrow"><span className="dot"/>Contato</span>
+              <h2>{CONTATO.title}</h2>
+              <p>{CONTATO.sub}</p>
+              <div className="contact-dados">
+                <span>E-mail: <a href={"mailto:" + CONTATO.email}>{CONTATO.email}</a></span>
+                <span>{CONTATO.local}</span>
               </div>
             </div>
 
-            {/* form */}
-            <form className="contact-form" onSubmit={send}>
-                <div className="cf-row">
-                  <div className="cf-field">
-                    <label className="cf-label">Nome</label>
-                    <input className="cf-input" type="text" placeholder="Seu nome completo"
-                      value={form.name} onChange={set('name')} required/>
-                  </div>
-                  <div className="cf-field">
-                    <label className="cf-label">E-mail</label>
-                    <input className="cf-input" type="email" placeholder="seu@email.com"
-                      value={form.email} onChange={set('email')} required/>
-                  </div>
+            <form className="contact-form" onSubmit={send} noValidate>
+              <div className="cf-field">
+                <label className="cf-label" htmlFor="cf-nome">Seu nome</label>
+                <input id="cf-nome" className="cf-input" autoComplete="name"
+                  value={form.nome} onChange={set('nome')} required/>
+              </div>
+              <div className="cf-field">
+                <label className="cf-label" htmlFor="cf-empresa">Empresa</label>
+                <input id="cf-empresa" className="cf-input" autoComplete="organization"
+                  value={form.empresa} onChange={set('empresa')} required/>
+              </div>
+              <div className="cf-row">
+                <div className="cf-field">
+                  <label className="cf-label" htmlFor="cf-porte">Número de colaboradores</label>
+                  <select id="cf-porte" className="cf-input" value={form.porte} onChange={set('porte')} required>
+                    <option value="">Selecione</option>
+                    {CONTATO.portes.map((p) => <option key={p}>{p}</option>)}
+                  </select>
                 </div>
                 <div className="cf-field">
-                  <label className="cf-label">Mensagem</label>
-                  <textarea className="cf-input cf-textarea" placeholder="Conte sobre o seu projeto ou a sua necessidade..."
-                    rows="5" value={form.msg} onChange={set('msg')} required/>
+                  <label className="cf-label" htmlFor="cf-area">Área que mais precisa de controle</label>
+                  <select id="cf-area" className="cf-input" value={form.area} onChange={set('area')}>
+                    {CONTATO.areas.map((a) => <option key={a}>{a}</option>)}
+                  </select>
                 </div>
-                {error && <p className="cf-error">{error}</p>}
-
-                <button className={"btn btn-primary cf-submit" + (sent ? " sent" : "")} type="submit" disabled={sending}>
-                  {sent ? "✓ Mensagem enviada" : sending ? "Enviando..." : "Enviar mensagem →"}
-                </button>
-              </form>
-
+              </div>
+              <p className="cf-error" role="alert">{error}</p>
+              <button className="btn btn-primary cf-submit" type="submit">Enviar pelo WhatsApp →</button>
+              <small className="cf-note">{CONTATO.privacidade}</small>
+            </form>
           </div>
         </div>
       </div>
@@ -800,7 +739,7 @@ function CTASection() {
 function Footer() {
   const { FOOTER } = window.LYNUS;
   return (
-    <footer className="footer" id="precos">
+    <footer className="footer">
       <div className="wrap footer-inner">
         <div className="footer-brand">
           <p>{FOOTER.tagline}</p>
@@ -809,18 +748,19 @@ function Footer() {
           {FOOTER.cols.map((col) => (
             <div key={col.h} className="footer-col">
               <h4>{col.h}</h4>
-              {col.items.map((it) => <a key={it} href="#">{it}</a>)}
+              {col.items.map((it) => it.href
+                ? <a key={it.label} href={it.href} {...(it.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{it.label}</a>
+                : <span key={it.label} className="footer-text">{it.label}</span>)}
             </div>
           ))}
         </div>
       </div>
       <div className="wrap footer-bottom">
         <span>{FOOTER.copyright}</span>
-        <span className="footer-status"><span className="footer-status-dot"></span>Todos os sistemas operacionais</span>
       </div>
     </footer>
   );
 }
 
 /* ---- Mini dashboard preview (CSS-only mockup) ---- */
-window.LynusSections = { Nav, Hero, Features, SolucoesGrid, Vantagens, Sobre, CTASection, Footer, Cursor, PageLoader, ThreeBackground };
+window.LynusSections = { Nav, Hero, Features, Diagnostico, SolucoesGrid, Vantagens, Sobre, Processo, Faq, CTASection, Footer, Cursor, PageLoader, ThreeBackground };

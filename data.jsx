@@ -30,27 +30,26 @@ function applyAccent(name) {
 
 const NAV = {
   links: [
-    { label: "Início",      href: "#top" },
-    { label: "Recursos",    href: "#recursos" },
-    { label: "Soluções",    href: "#solucoes" },
-    { label: "Sobre",       href: "#sobre" },
-    { label: "Contato",     href: "#cta" },
+    { label: "Diagnóstico", href: "#diagnostico" },
+    { label: "Serviços",    href: "#servicos" },
+    { label: "Quem faz",    href: "#quem-faz" },
+    { label: "Perguntas",   href: "#perguntas" },
   ],
-  cta: "Falar no WhatsApp",
+  cta: "Agendar diagnóstico",
 };
 
+// Links de WhatsApp com mensagem pronta
+const WHATSAPP_NUMERO = "5599991754232";
+const waLink = (texto) => "https://wa.me/" + WHATSAPP_NUMERO + "?text=" + encodeURIComponent(texto);
+
 const HERO = {
-  title: ["Problemas acontecem.", "A Lynus", "resolve."],
+  title: ["Sistemas de gestão", "feitos por quem já", "viveu a operação."],
   titleAccentLine: 2,
-  sub: "A Lynus Tech é a central completa para mapear, automatizar e otimizar os fluxos da sua operação. Detecção de gargalos em tempo real, automação de workflows e relatórios inteligentes — tudo em um só lugar.",
-  ctaPrimary: "Começar agora",
-  ctaSecondary: "Agendar demo",
-  bullets: [
-    { k: "Detecção em tempo real", d: "Em menos de 5s" },
-    { k: "Automação de workflows", d: "Runbooks automáticos" },
-    { k: "Relatórios inteligentes", d: "Post-mortem automático" },
-  ],
-  trustLabel: "Equipes de engenharia que confiam na Lynus",
+  sub: "A Lynus cria sistemas web e apps sob medida para empresas de transporte, construção, indústria e agro. Compras, estoque, RH, financeiro, manutenção e PCM conectados num só lugar, no lugar de planilhas que não conversam.",
+  ctaPrimary: "Agendar diagnóstico",
+  ctaSecondary: "Falar no WhatsApp",
+  whatsapp: waLink("Olá, Ricardo. Vi o site da Lynus e quero entender o diagnóstico de processos."),
+  note: "Atendimento em todo o Brasil, 100% remoto quando você preferir.",
 };
 
 const LOGOS = ["Nuvora", "Paxil", "Helio", "Cortex", "Vantix", "Orbita"];
@@ -62,46 +61,70 @@ const STATS = [
   { v: 200, suf: "+", k: "Integrações", d: "conecte sua stack" },
 ];
 
-const FEATURES = [
-  {
-    span: "wide", icon: "pulse", tag: "Detecção",
-    title: "Detecção em tempo real",
-    desc: "Monitore métricas, logs e traces num único painel. A correlação por IA agrupa sinais ruidosos em um incidente acionável — antes do primeiro cliente perceber.",
-  },
-  {
-    span: "tall", icon: "flow", tag: "Automação",
-    title: "Workflows que se executam sozinhos",
-    desc: "Runbooks automáticos disparam a resposta — reiniciam serviços, isolam nós e notificam o time certo enquanto você dorme.",
-  },
-  {
-    span: "norm", icon: "bell", tag: "On-call",
-    title: "Plantão inteligente",
-    desc: "Escalonamento que avisa a pessoa certa, na hora certa.",
-  },
-  {
-    span: "norm", icon: "doc", tag: "Post-mortem",
-    title: "Linha do tempo automática",
-    desc: "Cada incidente vira um relatório pronto para o retrospecto.",
-  },
-  {
-    span: "wide", icon: "plug", tag: "Integrações",
-    title: "Conecte toda a sua stack",
-    desc: "Slack, PagerDuty, Datadog, AWS, GitHub e mais de 200 ferramentas — em dois cliques.",
-    chips: ["Slack", "Datadog", "AWS", "GitHub", "Jira", "+200"],
-  },
-];
+const FEATURES = {
+  title: "Onde a empresa perde dinheiro sem perceber",
+  sub: "Na maioria das operações, o problema não é falta de dado. É dado espalhado em planilha, nota fiscal, grupo de WhatsApp e cabeça de encarregado.",
+  items: [
+    { icon: "cart", title: "Compra sem processo",
+      desc: "Pedido chega por WhatsApp, sem cotação registrada e sem alçada de aprovação. Ninguém sabe quanto foi comprado de quem, nem por quê." },
+    { icon: "box", title: "Estoque que não bate",
+      desc: "A peça some, o inventário nunca fecha e o mesmo item é comprado duas vezes porque ninguém confia no saldo." },
+    { icon: "wrench", title: "Manutenção só corretiva",
+      desc: "A preventiva existe no papel, mas vence sem ninguém ver. O equipamento para e a quebra custa várias vezes mais que a revisão." },
+    { icon: "users", title: "RH no papel",
+      desc: "Férias, documentos, ASO, treinamentos e EPI controlados em pastas e planilhas. O vencimento só aparece quando vira multa ou afastamento." },
+    { icon: "coin", title: "Financeiro fechando no escuro",
+      desc: "O custo por centro de custo sai no fim do mês, quando sai. Decisão de preço e de corte é tomada sem saber onde o dinheiro realmente foi." },
+    { icon: "unlink", title: "Áreas que não conversam",
+      desc: "Compras não vê o estoque, a manutenção não vê as compras e o financeiro recebe tudo depois. Cada área redigita o que a outra já lançou." },
+  ],
+};
+
+const DIAGNOSTICO = {
+  eyebrow: "Oferta de entrada",
+  boxTitle: "Diagnóstico de Processos e Custos",
+  boxText: "Escolhemos com você a área que mais dói, ou olhamos a empresa inteira. Pegamos os dados do jeito que estão e devolvemos um retrato claro de onde está o desperdício e onde agir primeiro.",
+  entregas: [
+    "Mapa dos processos atuais, com retrabalhos e pontos sem controle",
+    "Indicadores da área levantados com os seus próprios dados",
+    "Esboço das telas do sistema que resolve o problema",
+    "Relatório com as 5 ações de maior retorno",
+    "Reunião de apresentação com a gestão",
+  ],
+  cta: "Quero o diagnóstico",
+  title: "Uma semana, valor fechado, sem contrato longo",
+  sub: "Se depois disso fizer sentido automatizar, você já sabe exatamente o que o sistema precisa resolver. Se não fizer, o relatório continua seu.",
+  dias: [
+    { d: "Dia 1",      t: "Conversa com as áreas",             x: "Como compras, estoque, RH, financeiro e manutenção trabalham hoje." },
+    { d: "Dia 2 a 4",  t: "Levantamento de dados e fluxos",    x: "Planilhas, notas fiscais, requisições, ordens de serviço e relatórios do sistema atual." },
+    { d: "Dia 5 e 6",  t: "Análise e desenho da solução",      x: "Indicadores por área e esboço das telas do sistema recomendado." },
+    { d: "Dia 7",      t: "Apresentação",                      x: "Resultado, prioridades e quais módulos resolvem primeiro." },
+  ],
+};
 
 const SOLUCOES = {
-  eyebrow: "Nossas soluções",
-  title: "Uma plataforma. Todas as frentes da sua operação.",
-  sub: "Módulos conectados que cobrem cada etapa do fluxo — organize, edite ou expanda conforme sua operação cresce.",
+  eyebrow: "Serviços",
+  title: "Módulos que conversam entre si",
+  sub: "Você começa pelo módulo que mais dói e adiciona os outros depois. Cada novo módulo já nasce ligado aos anteriores, sem redigitar nada.",
   items: [
-    { id: "financeiro", title: "Financeiro", desc: "Controle de receitas, despesas, DRE e fluxo de caixa com indicadores em tempo real.", icon: "💰", href: "financeiro.html", tags: ["DRE", "Fluxo de caixa"], accent: "#6b8aff" },
-    { id: "estoque", title: "Estoque", desc: "Controle de entradas, saídas e níveis de estoque, com alertas de ruptura e giro por item.", icon: "📦", href: "estoque.html", tags: ["Inventário", "Giro"], accent: "#34e0a1" },
-    { id: "compras", title: "Compras", desc: "Gestão de pedidos, fornecedores, orçamentos e aprovações de compras num único fluxo.", icon: "🛒", href: "pcm.html", tags: ["Fornecedores", "Aprovações"], accent: "#ffb547" },
-    { id: "rh", title: "RH", desc: "Gestão de colaboradores, ponto, documentos e indicadores de pessoas centralizados.", icon: "👥", href: "rh.html", tags: ["Colaboradores", "Ponto"], accent: "#f5c518" },
-    { id: "crm", title: "CRM", desc: "Relacionamento com clientes, funil de vendas e histórico de contatos em um só lugar.", icon: "🤝", href: "crm.html", tags: ["Funil", "Clientes"], accent: "#36d0e8" },
-    { id: "pcm", title: "PCM", desc: "Planejamento e controle de manutenções preventivas, preditivas e corretivas.", icon: "🔧", href: "manutencao.html", tags: ["Preventiva", "Ordens de serviço"], accent: "#ff8a3d" },
+    { id: "compras", title: "Compras e suprimentos", icon: "cart", href: "pcm.html",
+      desc: "Da requisição ao pedido, com histórico de fornecedor e aprovação registrada.",
+      itens: ["Requisição, cotação e comparativo", "Aprovação por alçada", "Pedido de compra e recebimento"] },
+    { id: "estoque", title: "Estoque e almoxarifado", icon: "box", href: "estoque.html",
+      desc: "Saldo confiável, com cada saída ligada a quem retirou e para onde foi.",
+      itens: ["Entradas, saídas e transferências", "Inventário e ponto de pedido", "Consumo por centro de custo"] },
+    { id: "pcm", title: "Manutenção e PCM", icon: "wrench", href: "manutencao.html",
+      desc: "Planejamento e controle da manutenção de frota, máquinas e instalações.",
+      itens: ["OS e plano de preventiva por km, hora ou data", "Backlog e programação", "Disponibilidade, MTBF e MTTR"] },
+    { id: "rh", title: "RH e departamento pessoal", icon: "users", href: "rh.html",
+      desc: "Cadastro e rotinas dos colaboradores, com alerta antes de vencer.",
+      itens: ["Admissão e documentos", "Férias, ASO e treinamentos", "Controle de entrega de EPI"] },
+    { id: "financeiro", title: "Financeiro e custos", icon: "coin", href: "financeiro.html",
+      desc: "O dinheiro de todas as áreas num só lugar, organizado por centro de custo.",
+      itens: ["Contas a pagar e a receber", "Fluxo de caixa", "DRE gerencial e custo por centro de custo"] },
+    { id: "paineis", title: "Painéis, apps e integrações", icon: "plug",
+      desc: "A informação lançada no campo e vista pela gestão, sem esperar o fim do mês.",
+      itens: ["Painéis de indicadores dentro do próprio sistema", "Apps Android que funcionam offline", "Integração com ERP, telemetria e planilhas"] },
   ],
 };
 
@@ -113,23 +136,58 @@ const VANTAGENS = [
   { icon: "shield",   title: "Segurança de dados", desc: "Criptografia e backups automáticos para proteger suas informações." },
 ];
 
-const CTA = {
-  eyebrow: "Pronto quando você estiver",
-  title: "Durma tranquilo. A Lynus está de plantão.",
-  sub: "Comece grátis em minutos. Sem cartão de crédito, sem configuração complexa.",
-  primary: "Começar agora",
-  secondary: "Falar com vendas",
+const PROCESSO = {
+  title: "Como um projeto acontece",
+  etapas: [
+    { t: "Diagnóstico",           x: "Entendemos a operação e medimos o custo atual." },
+    { t: "Escopo e proposta",     x: "Prazo, valor e entregas definidos por escrito antes de começar." },
+    { t: "Entregas curtas",       x: "Versões funcionando a cada duas semanas, testadas com a sua equipe." },
+    { t: "Implantação e suporte", x: "Treinamento de quem usa e acompanhamento após a entrada em produção." },
+  ],
+};
+
+const FAQ = {
+  title: "Perguntas frequentes",
+  items: [
+    { q: "Preciso contratar todos os módulos?",
+      a: "Não. A maioria dos clientes começa por uma área, geralmente compras e estoque ou manutenção, e adiciona as outras quando a primeira já está rodando." },
+    { q: "Já uso um ERP. Vocês substituem?",
+      a: "Não necessariamente. Muitas vezes o ERP cuida bem do fiscal e do contábil, e o que falta é o controle do dia a dia da operação. Nesse caso, integramos os dois." },
+    { q: "Meus dados estão bagunçados em planilhas.",
+      a: "É o ponto de partida mais comum. A organização desses dados faz parte do diagnóstico." },
+    { q: "Como ficam a segurança e a LGPD?",
+      a: "Os dados ficam sob contrato de confidencialidade, com acesso restrito por perfil. Informações pessoais de colaboradores são tratadas conforme a LGPD." },
+    { q: "Como funciona o atendimento a distância?",
+      a: "Atendemos empresas de todo o Brasil. Levantamento, reuniões, entregas e treinamento acontecem por videochamada, e o sistema roda na nuvem, acessível de qualquer unidade. Quando o projeto exige, fazemos visita presencial à operação." },
+  ],
+};
+
+const CONTATO = {
+  title: "Descubra onde sua operação está perdendo dinheiro",
+  sub: "Preencha em 30 segundos. A conversa continua no WhatsApp, direto com o Ricardo.",
+  email: "ricardoluz@lynustech.com.br",
+  local: "São José do Rio Preto, SP. Atendimento em todo o Brasil.",
+  portes: ["até 20", "de 21 a 50", "de 51 a 200", "mais de 200"],
+  areas: ["Compras", "Estoque", "Manutenção e PCM", "RH e departamento pessoal", "Financeiro", "Várias áreas"],
+  privacidade: "Seus dados são usados apenas para retornar o contato.",
 };
 
 const FOOTER = {
-  tagline: "A central de resposta a incidentes para equipes que não podem parar.",
+  tagline: "Sistemas de gestão para empresas de operação.",
   cols: [
-    { h: "Produto", items: ["Plataforma", "Automação", "On-call", "Status pages", "Preços"] },
-    { h: "Empresa", items: ["Sobre", "Clientes", "Carreiras", "Blog", "Contato"] },
-    { h: "Recursos", items: ["Documentação", "API", "Changelog", "Comunidade", "Status"] },
-    { h: "Legal", items: ["Privacidade", "Termos", "Segurança", "LGPD"] },
+    { h: "Site", items: [
+      { label: "Diagnóstico", href: "#diagnostico" },
+      { label: "Serviços",    href: "#servicos" },
+      { label: "Quem faz",    href: "#quem-faz" },
+      { label: "Perguntas",   href: "#perguntas" },
+    ] },
+    { h: "Contato", items: [
+      { label: "WhatsApp", href: waLink("Olá, Ricardo. Vi o site da Lynus."), external: true },
+      { label: "ricardoluz@lynustech.com.br", href: "mailto:ricardoluz@lynustech.com.br" },
+      { label: "São José do Rio Preto, SP" },
+    ] },
   ],
-  copyright: "© 2026 Lynus Tech. Todos os direitos reservados. CNPJ 68.200.725/0001-67",
+  copyright: "© 2026 Lynus Tecnologia. Todos os direitos reservados. CNPJ 68.200.725/0001-67",
 };
 
 /* ---- reliable visibility manager (IntersectionObserver is flaky in sandbox) ---- */
@@ -158,9 +216,18 @@ function startVisibility() {
 }
 
 const SOBRE = {
-  eyebrow: "Nossa história",
-  title: "Construída por quem viveu a operação de perto",
-  mission: "A Lynus nasce da experiência real dentro de operações industriais, manutenção de frota, planejamento e gestão de processos. Antes de ser uma empresa de tecnologia, ela vem da prática: do dia a dia com ordens de serviço, preventivas atrasadas, compras urgentes e decisões tomadas sem dados confiáveis.",
+  eyebrow: "Quem faz",
+  title: "Quem está por trás da Lynus",
+  paragrafos: [
+    "Ricardo Luz é administrador de empresas com MBA em Logística. Antes de desenvolver software, passou anos em rotinas administrativas, almoxarifado, suprimentos e planejamento de manutenção de equipamentos pesados.",
+    "Por isso a Lynus não precisa de tradução para requisição, alçada, inventário, OS ou centro de custo. Ela já sabe onde o controle costuma quebrar entre uma área e outra.",
+  ],
+  trajeto: [
+    { t: "Administrativo e almoxarifado", x: "Rotinas administrativas, estoque de peças, entradas e saídas" },
+    { t: "Suprimentos",                   x: "Compras, fornecedores e custo de reposição" },
+    { t: "Planejamento de manutenção",    x: "PCM de linha amarela e frota diesel, até supervisor de planejamento" },
+    { t: "Desenvolvimento full stack",    x: "Sistemas web, apps Android e iOS e automação" },
+  ],
   founder: {
     name: "Ricardo Henrique",
     role: "Fundador",
@@ -173,29 +240,6 @@ const SOBRE = {
     bio: "Profissional com atuação em análise de dados, Power BI, SQL, automação de relatórios e inteligência empresarial aplicada a processos corporativos.",
     initials: "WF",
   },
-  values: [
-    { icon: "⚡", label: "Velocidade", text: "Operações não podem esperar. Criamos ferramentas que agilizam decisões, reduzem burocracia e aproximam o problema da solução." },
-    { icon: "🎯", label: "Precisão", text: "Indicadores, ordens de serviço, custos e dados operacionais precisam estar corretos e disponíveis. Decidir com base em informação real — não em achismos." },
-    { icon: "🔗", label: "Integração", text: "Setores isolados geram perda de tempo e dinheiro. A Lynus integra manutenção, compras, financeiro e operação em um único fluxo rastreável." },
-  ],
-  storyNarrative: [
-    "A Lynus nasceu da vivência dentro da operação. Dos desafios enfrentados em campo, nas oficinas, nas rotinas de planejamento e nas cobranças por resultado.",
-    "Manutenções sem histórico confiável, peças solicitadas por mensagem, compras perdidas em e-mail, indicadores feitos manualmente e equipes dependendo da memória de uma única pessoa para tomar decisões. A partir dessas dores surgiu a missão.",
-  ],
-  missionStatement: "Criar soluções digitais acessíveis, inteligentes e práticas para empresas que precisam organizar sua operação, controlar seus processos e tomar decisões com mais segurança.",
-  timeline: [
-    { year: "2022", text: "Início da experiência prática em operações industriais, manutenção, planejamento e controle de processos." },
-    { year: "2023", text: "Desenvolvimento das primeiras ideias voltadas para controle de manutenção, ordens de serviço e gestão operacional." },
-    { year: "2024", text: "Expansão para sistemas integrados: compras, financeiro, estoque, dashboards e automação de processos." },
-    { year: "2025", text: "Consolidação da Lynus como empresa de tecnologia com foco em plataformas digitais e gestão inteligente." },
-    { year: "2026", text: "Evolução para soluções completas em sistemas empresariais, PCM, dashboards e desenvolvimento sob demanda." },
-  ],
-  numbers: [
-    { v: "25+", label: "Sistemas ativos" },
-    { v: "100%", label: "Foco em operações" },
-    { v: "0", label: "Planilhas necessárias" },
-    { v: "24/7", label: "Dados em tempo real" },
-  ],
 };
 
-window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, LOGOS, STATS, FEATURES, SOLUCOES, VANTAGENS, CTA, FOOTER, SOBRE, observeVisible, startVisibility };
+window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, LOGOS, STATS, FEATURES, DIAGNOSTICO, SOLUCOES, VANTAGENS, PROCESSO, FAQ, CONTATO, FOOTER, SOBRE, WHATSAPP_NUMERO, waLink, observeVisible, startVisibility };

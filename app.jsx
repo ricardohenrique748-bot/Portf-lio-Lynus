@@ -1,7 +1,7 @@
 /* ============================================================
    LYNUS TECH — App root + Tweaks
    ============================================================ */
-const { Nav, Hero, Features, SolucoesGrid, Vantagens, Sobre, CTASection, Footer, Cursor, PageLoader, ThreeBackground } = window.LynusSections;
+const { Nav, Hero, Features, Diagnostico, SolucoesGrid, Vantagens, Sobre, Processo, Faq, CTASection, Footer, Cursor, PageLoader, ThreeBackground } = window.LynusSections;
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "accent": "azul",
@@ -26,7 +26,7 @@ function App() {
     gsap.fromTo('.hero-title span', { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, stagger: 0.11, ease: 'power3.out', delay: D + 0.14 });
     gsap.fromTo('.hero-sub',        { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: D + 0.52 });
     gsap.fromTo('.hero-cta',        { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out', delay: D + 0.68 });
-    gsap.fromTo('.hero-bullets',    { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out', delay: D + 0.82 });
+    gsap.fromTo('.hero-note', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out', delay: D + 0.82 });
     gsap.fromTo('.trust',           { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out', delay: D + 1.0 });
 
     if (!window.ScrollTrigger) return;
@@ -39,7 +39,7 @@ function App() {
 
     gsap.fromTo('.bento-card', { y: 44, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.6, stagger: 0.07, ease: 'power2.out',
-        scrollTrigger: { trigger: '.bento', start: 'top 82%', once: true } });
+        scrollTrigger: { trigger: '.dores-grid', start: 'top 82%', once: true } });
 
     gsap.to('.bg-layer .glow',   { y: 180, ease: 'none', scrollTrigger: { scrub: 2 } });
     gsap.to('.bg-layer .glow-2', { y: -100, ease: 'none', scrollTrigger: { scrub: 3 } });
@@ -103,9 +103,12 @@ function App() {
       <main>
         <Hero layout={heroLayout} />
         <Features />
+        <Diagnostico />
         <SolucoesGrid />
         <Vantagens />
         <Sobre />
+        <Processo />
+        <Faq />
         <CTASection />
       </main>
       <Footer />
