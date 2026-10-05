@@ -1,5 +1,5 @@
 /* ============================================================
-   LYNUS TECH — App root + Tweaks
+   LYNUS TECH — App root
    ============================================================ */
 const { Nav, Hero, Features, Diagnostico, SolucoesGrid, Vantagens, Sobre, Processo, Faq, CTASection, Footer, Cursor, PageLoader, ThreeBackground } = window.LynusSections;
 
@@ -11,7 +11,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 }/*EDITMODE-END*/;
 
 function App() {
-  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const t = TWEAK_DEFAULTS;
 
   useEffect(() => { window.LYNUS.applyAccent(t.accent); }, [t.accent]);
   useEffect(() => { document.body.setAttribute("data-bg", t.background); }, [t.background]);
@@ -112,26 +112,6 @@ function App() {
         <CTASection />
       </main>
       <Footer />
-
-      <TweaksPanel>
-        <TweakSection label="Cor de destaque" />
-        <TweakColor label="Accent" value={window.LYNUS.ACCENTS[t.accent].accent}
-          options={["#6b8aff", "#ff8a3d", "#f5c518", "#34e0a1"]}
-          onChange={(hex) => {
-            const map = { "#6b8aff": "azul", "#ff8a3d": "laranja", "#f5c518": "ambar", "#34e0a1": "verde" };
-            setTweak("accent", map[hex] || "azul");
-          }} />
-
-        <TweakSection label="Layout do hero" />
-        <TweakRadio label="Composição" value={t.heroLayout}
-          options={["centered", "split"]}
-          onChange={(v) => setTweak("heroLayout", v)} />
-
-        <TweakSection label="Fundo" />
-        <TweakRadio label="Tratamento" value={t.background}
-          options={["glow", "grid", "minimal"]}
-          onChange={(v) => setTweak("background", v)} />
-      </TweaksPanel>
     </>
   );
 }

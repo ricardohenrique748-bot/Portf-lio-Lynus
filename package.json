@@ -1,7 +1,14 @@
 {
   "name": "lynus-tech",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "dev": "npx serve . --listen 3000 --no-clipboard"
+    "dev": "npx serve . --listen 3000 --no-clipboard",
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   }
 }

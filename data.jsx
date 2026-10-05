@@ -45,7 +45,7 @@ const waLink = (texto) => "https://wa.me/" + WHATSAPP_NUMERO + "?text=" + encode
 const HERO = {
   title: ["Sistemas de gestão", "feitos por quem já", "viveu a operação."],
   titleAccentLine: 2,
-  sub: "A Lynus cria sistemas web e apps sob medida para empresas de transporte, construção, indústria e agro. Compras, estoque, RH, financeiro, manutenção e PCM conectados num só lugar, no lugar de planilhas que não conversam.",
+  sub: "A Lynus cria sistemas web e apps sob medida para empresas de qualquer segmento. Compras, estoque, RH, financeiro, manutenção e PCM conectados num só lugar, no lugar de planilhas que não conversam.",
   ctaPrimary: "Agendar diagnóstico",
   ctaSecondary: "Falar no WhatsApp",
   whatsapp: waLink("Olá, Ricardo. Vi o site da Lynus e quero entender o diagnóstico de processos."),

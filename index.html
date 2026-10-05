@@ -4,19 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lynus Tecnologia — Sistemas de gestão para empresas de operação</title>
-  <meta name="description" content="Sistemas web e apps sob medida para empresas de transporte, construção, indústria e agro. Compras, estoque, RH, financeiro, manutenção e PCM integrados. Diagnóstico de processos em 7 dias." />
-  <link rel="canonical" href="https://lynustech.com.br/" />
+  <meta name="description" content="Sistemas web e apps sob medida para empresas de qualquer segmento. Compras, estoque, RH, financeiro, manutenção e PCM integrados. Diagnóstico de processos em 7 dias." />
+  <link rel="canonical" href="https://www.lynustech.com.br/" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://lynustech.com.br/" />
+  <meta property="og:url" content="https://www.lynustech.com.br/" />
   <meta property="og:title" content="Lynus — Sistemas de gestão feitos por quem já viveu a operação" />
   <meta property="og:description" content="Compras, estoque, RH, financeiro, manutenção e PCM integrados. Diagnóstico de processos em 7 dias." />
   <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Lynus Tecnologia" />
+  <meta property="og:image" content="https://www.lynustech.com.br/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Lynus — Sistemas de gestão feitos por quem já viveu a operação" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.lynustech.com.br/og-image.png" />
+
+  <!-- Meta Pixel + Google (IDs em tracking.js) -->
+  <script src="tracking.js"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Lynus Tecnologia",
-    "url": "https://lynustech.com.br/",
+    "url": "https://www.lynustech.com.br/",
     "email": "ricardoluz@lynustech.com.br",
     "description": "Sistemas de gestão integrados: compras, estoque, RH, financeiro, manutenção e PCM.",
     "founder": { "@type": "Person", "name": "Ricardo Henrique Pereira da Luz" },
@@ -32,25 +42,16 @@
   <link rel="stylesheet" href="sections.css" />
 </head>
 <body data-bg="glow">
+  <noscript><img height="1" width="1" style="display:none" alt=""
+    src="https://www.facebook.com/tr?id=1128113676463020&ev=PageView&noscript=1" /></noscript>
   <div id="root"></div>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <!-- Animações -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" crossorigin="anonymous"></script>
 
-  <!-- Supabase client -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script src="supabase-client.js"></script>
-
-  <!-- Animation libs -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" crossorigin="anonymous"></script>
-
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
-  <script type="text/babel" src="data.jsx"></script>
-  <script type="text/babel" src="dashboard.jsx"></script>
-  <script type="text/babel" src="sections.jsx"></script>
-  <script type="text/babel" src="app.jsx"></script>
+  <!-- Site compilado: gerado por "npm run build" a partir de data/dashboard/sections/app.jsx -->
+  <script defer src="app.bundle.js"></script>
 </body>
 </html>
