@@ -2,7 +2,8 @@
    LYNUS TECH — Build da landing page (index.html)
    Junta os .jsx do site num único app.bundle.js já compilado e
    minificado, com o React de produção embutido. Rode após editar
-   qualquer .jsx abaixo:  npm run build
+   qualquer .jsx abaixo:  npm run bundle
+   (não use "build": a Vercel roda esse nome sozinha e o deploy quebra)
    ============================================================ */
 import { build } from "esbuild";
 import { readFileSync } from "node:fs";

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npx serve . --listen 3000 --no-clipboard",
-    "build": "node build.mjs"
+    "bundle": "node build.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2",
