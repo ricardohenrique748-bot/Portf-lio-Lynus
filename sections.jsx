@@ -679,6 +679,7 @@ function CTASection() {
     }
     setError('');
     const msg = `Olá, Ricardo. Sou ${nome}, da ${empresa}. Temos ${form.porte} colaboradores. Área que mais precisa de controle: ${form.area}. Quero saber sobre o diagnóstico de processos.`;
+    if (window.lynusSaveLead) window.lynusSaveLead({ nome, empresa, porte: form.porte, area: form.area });
     if (window.lynusTrack) window.lynusTrack('lead', { method: 'formulario', porte: form.porte, area: form.area });
     window.open(waLink(msg), '_blank', 'noopener');
   };

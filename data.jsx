@@ -52,15 +52,6 @@ const HERO = {
   note: "Atendimento em todo o Brasil, 100% remoto quando você preferir.",
 };
 
-const LOGOS = ["Nuvora", "Paxil", "Helio", "Cortex", "Vantix", "Orbita"];
-
-const STATS = [
-  { v: 62, suf: "%", k: "Redução no MTTR", d: "tempo médio de resolução" },
-  { v: 99.99, suf: "%", k: "Disponibilidade", d: "SLA garantido", dec: 2 },
-  { v: 4.2, suf: "s", k: "Tempo até o alerta", d: "da detecção ao aviso", dec: 1 },
-  { v: 200, suf: "+", k: "Integrações", d: "conecte sua stack" },
-];
-
 const FEATURES = {
   title: "Onde a empresa perde dinheiro sem perceber",
   sub: "Na maioria das operações, o problema não é falta de dado. É dado espalhado em planilha, nota fiscal, grupo de WhatsApp e cabeça de encarregado.",
@@ -242,4 +233,4 @@ const SOBRE = {
   },
 };
 
-window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, LOGOS, STATS, FEATURES, DIAGNOSTICO, SOLUCOES, VANTAGENS, PROCESSO, FAQ, CONTATO, FOOTER, SOBRE, WHATSAPP_NUMERO, waLink, observeVisible, startVisibility };
+window.LYNUS = { ACCENTS, applyAccent, hexToRgba, NAV, HERO, FEATURES, DIAGNOSTICO, SOLUCOES, VANTAGENS, PROCESSO, FAQ, CONTATO, FOOTER, SOBRE, WHATSAPP_NUMERO, waLink, observeVisible, startVisibility };

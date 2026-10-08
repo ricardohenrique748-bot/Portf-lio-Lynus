@@ -5,7 +5,7 @@
 (function () {
   var META_PIXEL_ID = "1128113676463020";   // Gerenciador de Eventos do Meta — "Lynus site"
   var GTM_ID        = "";   // ex.: "GTM-ABC1234"      (Google Tag Manager)
-  var GA4_ID        = "";   // ex.: "G-ABC123XYZ"      (use só se NÃO usar o GTM)
+  var GA4_ID        = "G-MVW9EX1QEG";   // ex.: "G-ABC123XYZ"      (use só se NÃO usar o GTM)
 
   window.dataLayer = window.dataLayer || [];
 
