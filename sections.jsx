@@ -729,7 +729,7 @@ function CTASection() {
               </div>
               <p className="cf-error" role="alert">{error}</p>
               <button className="btn btn-primary cf-submit" type="submit">Enviar pelo WhatsApp →</button>
-              <small className="cf-note">{CONTATO.privacidade}</small>
+              <small className="cf-note">{CONTATO.privacidade} <a href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a></small>
             </form>
           </div>
         </div>

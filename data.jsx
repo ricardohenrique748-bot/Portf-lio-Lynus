@@ -98,13 +98,13 @@ const SOLUCOES = {
   title: "Módulos que conversam entre si",
   sub: "Você começa pelo módulo que mais dói e adiciona os outros depois. Cada novo módulo já nasce ligado aos anteriores, sem redigitar nada.",
   items: [
-    { id: "compras", title: "Compras e suprimentos", icon: "cart", href: "pcm.html",
+    { id: "compras", title: "Compras e suprimentos", icon: "cart", href: "compras.html",
       desc: "Da requisição ao pedido, com histórico de fornecedor e aprovação registrada.",
       itens: ["Requisição, cotação e comparativo", "Aprovação por alçada", "Pedido de compra e recebimento"] },
     { id: "estoque", title: "Estoque e almoxarifado", icon: "box", href: "estoque.html",
       desc: "Saldo confiável, com cada saída ligada a quem retirou e para onde foi.",
       itens: ["Entradas, saídas e transferências", "Inventário e ponto de pedido", "Consumo por centro de custo"] },
-    { id: "pcm", title: "Manutenção e PCM", icon: "wrench", href: "manutencao.html",
+    { id: "pcm", title: "Manutenção e PCM", icon: "wrench", href: "pcm.html",
       desc: "Planejamento e controle da manutenção de frota, máquinas e instalações.",
       itens: ["OS e plano de preventiva por km, hora ou data", "Backlog e programação", "Disponibilidade, MTBF e MTTR"] },
     { id: "rh", title: "RH e departamento pessoal", icon: "users", href: "rh.html",
@@ -160,7 +160,7 @@ const CONTATO = {
   local: "São José do Rio Preto, SP. Atendimento em todo o Brasil.",
   portes: ["até 20", "de 21 a 50", "de 51 a 200", "mais de 200"],
   areas: ["Compras", "Estoque", "Manutenção e PCM", "RH e departamento pessoal", "Financeiro", "Várias áreas"],
-  privacidade: "Seus dados são usados apenas para retornar o contato.",
+  privacidade: "Seus dados são usados para retornar o contato.",
 };
 
 const FOOTER = {
@@ -171,6 +171,7 @@ const FOOTER = {
       { label: "Serviços",    href: "#servicos" },
       { label: "Quem faz",    href: "#quem-faz" },
       { label: "Perguntas",   href: "#perguntas" },
+      { label: "Privacidade", href: "privacidade.html" },
     ] },
     { h: "Contato", items: [
       { label: "WhatsApp", href: waLink("Olá, Ricardo. Vi o site da Lynus."), external: true },

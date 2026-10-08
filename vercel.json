@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/manutencao.html", "destination": "/pcm.html", "permanent": true }
+  ]
+}

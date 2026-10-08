@@ -781,6 +781,7 @@ select.cf-input { appearance: none; cursor: pointer; padding-right: 36px;
   background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
 select.cf-input option { background: var(--bg-2); color: var(--text); }
 .cf-note { font-size: 12.5px; color: var(--text-3); text-align: center; }
+.cf-note a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 .cf-locked { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 40px 20px; }
 .cf-locked-text { color: var(--text-2); }
 
