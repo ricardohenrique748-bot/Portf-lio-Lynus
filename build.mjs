@@ -7,7 +7,10 @@
    (não use "build": a Vercel roda esse nome sozinha e o deploy quebra)
    ============================================================ */
 import { build } from "esbuild";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync, rmSync } from "node:fs";
+import { createRequire } from "node:module";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 // Mesma ordem em que o index.html carregava os scripts.
 const FILES = ["data.jsx", "dashboard.jsx", "sections.jsx", "app.jsx"];
@@ -53,3 +56,60 @@ await Promise.all([
     })
   ),
 ]);
+
+/* ---- Pré-renderização da landing ----
+   Gera o HTML da página no build e grava dentro do <div id="root"> do
+   index.html, para Google, IAs e redes sociais lerem o conteúdo sem rodar
+   JavaScript. No navegador, o app.bundle.js substitui esse HTML normalmente. */
+const MOUNT = 'ReactDOM.createRoot(document.getElementById("root")).render(<App />);';
+const appSrc = readFileSync("app.jsx", "utf8");
+if (!appSrc.includes(MOUNT)) throw new Error("prerender: linha de montagem do app.jsx mudou");
+
+const prerenderSrc = [
+  PRELUDE,
+  'import { renderToString } from "react-dom/server";',
+  ...FILES.map((f) => {
+    const code = readFileSync(f, "utf8");
+    return f === "app.jsx"
+      ? `{\n${code.replace(MOUNT, "globalThis.__html = renderToString(<App />);")}\n}`
+      : code;
+  }),
+].join("\n");
+
+const tmp = join(tmpdir(), `lynus-prerender-${Date.now()}.cjs`);
+await build({
+  ...OPTIONS,
+  minify: false,
+  platform: "node",
+  format: "cjs",
+  logLevel: "warning",
+  stdin: entry(prerenderSrc, "lynus-prerender.jsx"),
+  outfile: tmp,
+});
+
+// O código do site espera um navegador; no Node só precisa de stubs mínimos.
+const noop = () => {};
+globalThis.window = globalThis;
+Object.assign(globalThis, {
+  addEventListener: noop,
+  removeEventListener: noop,
+  innerWidth: 1280,
+  innerHeight: 800,
+  document: {
+    documentElement: { style: { setProperty: noop }, clientHeight: 800 },
+    body: { style: {}, classList: { add: noop, remove: noop }, setAttribute: noop },
+    getElementById: () => null,
+    querySelectorAll: () => [],
+  },
+});
+createRequire(import.meta.url)(tmp);
+rmSync(tmp, { force: true });
+
+const ROOT = /<div id="root">[\s\S]*?<!--\/prerender--><\/div>|<div id="root"><\/div>/;
+const index = readFileSync("index.html", "utf8");
+if (!ROOT.test(index)) throw new Error('prerender: <div id="root"> não encontrado no index.html');
+writeFileSync(
+  "index.html",
+  index.replace(ROOT, () => `<div id="root">${globalThis.__html}<!--/prerender--></div>`)
+);
+console.log(`\n  index.html pré-renderizado (${(globalThis.__html.length / 1024).toFixed(1)} KB de HTML)`);
